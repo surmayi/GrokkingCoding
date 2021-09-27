@@ -61,7 +61,7 @@ def find_duplicate_cyclic(nums):
     while cur!=slow:
         count+=1
         cur=nums[cur]
-    return count
+    return cur
 
 
 
