@@ -64,6 +64,72 @@ def find_duplicate_cyclic(nums):
     return cur
 
 
+def find_all_duplicates(nums):
+    duplicates=[]
+    start,end = 0, len(nums)
+    while start<end:
+        ind = nums[start]-1
+        if ind!=start:
+            if nums[ind]==nums[start]:
+                duplicates.append(nums[start])
+                start+=1
+            else:
+                nums[start], nums[ind]= nums[ind], nums[start]
+        else:
+            start+=1
+    return duplicates
+
+
+def find_corrupt_numbers(nums):
+    start,end = 0, len(nums)
+    while start<end:
+        ind = nums[start]-1
+        if ind!=start and nums[start]!=nums[ind]:
+            nums[start], nums[ind]= nums[ind],nums[start]
+        else:
+            start+=1
+    for i in range(end):
+        if i != nums[i]-1:
+            return [nums[i],i+1]
+    return [-1,-1]
+
+
+def find_first_smallest_missing_positive(nums):
+    start,end = 0, len(nums)
+    while start<end:
+        ind = nums[start]-1
+        if ind!=start and ind>=0 and ind<end:
+            nums[start], nums[ind]= nums[ind], nums[start]
+        else:
+            start+=1
+    for i in range(end):
+        if i!=nums[i]-1:
+            return i+1
+    return -1
+
+
+def find_first_k_missing_positive(nums, k):
+    start,end = 0, len(nums)
+    while start<end:
+        ind = nums[start]-1
+        if ind>=0 and ind<end and nums[start]!=nums[ind]:
+            nums[ind], nums[start]= nums[start], nums[ind]
+        else:
+            start+=1
+    remain= set()
+    missing=[]
+    for i in range(end):
+        if len(missing)<k:
+            if i+1!= nums[i]:
+                missing.append(i+1)
+                remain.add(nums[i])
+
+    while len(missing)<k:
+        if end+1 not in remain:
+            missing.append(end+1)
+        end+=1
+
+    return missing
 
 def main():
   print("1. cyclic_sort ",cyclic_sort([3, 1, 5, 4, 2]))
@@ -84,5 +150,19 @@ def main():
   print("5. find_duplicate without modifying ",find_duplicate([1, 1, 4, 3, 2]))
   print("5. find_duplicate without modifying ",find_duplicate([2, 1, 5, 3, 5, 4]))
   print("5. find_duplicate without modifying ",find_duplicate([2, 4, 1, 4, 4]))
+
+  print("6: find_all_duplicates ",find_all_duplicates([3, 4, 4, 5, 5]))
+  print("6: find_all_duplicates ",find_all_duplicates([5, 4, 7, 2, 3, 5, 3]))
+
+  print("7. find_corrupt_numbers ", find_corrupt_numbers([3, 1, 2, 5, 2]))
+  print("7. find_corrupt_numbers ",find_corrupt_numbers([3, 1, 2, 3, 6, 4]))
+
+  print("8. find_first_smallest_missing_positive ", find_first_smallest_missing_positive([-3, 1, 5, 4, 2]))
+  print("8. find_first_smallest_missing_positive ",find_first_smallest_missing_positive([3, -2, 0, 1, 2]))
+  print("8. find_first_smallest_missing_positive ",find_first_smallest_missing_positive([3, 2, 5, 1]))
+
+  print("9. find_first_k_missing_positive ",find_first_k_missing_positive([3, -1, 4, 5, 5], 3))
+  print("9. find_first_k_missing_positive ",find_first_k_missing_positive([2, 3, 4], 3))
+  print("9. find_first_k_missing_positive ",find_first_k_missing_positive([-2, -3, 4], 2))
 
 main()
