@@ -158,14 +158,14 @@ def find_max_in_bitonic_array(arr):
 
 # First, we find the peak emenent index then divide array in 2 parts from that index to first search in ascending order then descending order
 def search_bitonic_array(arr, key):
-    maxInd = find_max_ind_bitonic_array(arr)
-    resInd = binary_search_check_order(arr,key,0,maxInd)
-    if resInd!=-1:
-        return resInd
-    return binary_search_check_order(arr,key,maxInd+1,len(arr)-1)
+    peakInd = find_peak_index(arr)
+    res= search_bitonic_array_order(arr,key,0,peakInd)
+    if res!=-1:
+        return res
+    return search_bitonic_array_order(arr,key,peakInd+1,len(arr)-1)
 
 
-def find_max_ind_bitonic_array(arr):
+def find_peak_index(arr):
     low,high =0 ,len(arr)-1
     while low<=high:
         mid = low + (high-low)//2
@@ -179,7 +179,8 @@ def find_max_ind_bitonic_array(arr):
             high=mid-1
     return -1
 
-def binary_search_check_order(arr,key,low,high):
+
+def search_bitonic_array_order(arr,key,low,high):
     order = arr[low]<arr[high]
     while low<=high:
         mid = low+ (high-low)//2
@@ -199,11 +200,33 @@ def binary_search_check_order(arr,key,low,high):
 
 
 def search_rotated_array(arr, key):
-    low,high = 0, len(arr)-1
+    low, high = 0, len(arr)-1
     while low<=high:
         mid = low + (high-low)//2
         if key==arr[mid]:
             return mid
+        if arr[low]<arr[mid]:
+            if key>=arr[low] and key< arr[mid]:
+                high=mid-1
+            else:
+                low=mid+1
+        else:
+            if key>arr[mid] and key<=arr[high]:
+                low=mid+1
+            else:
+                high=mid-1
+    return -1
+
+
+def search_rotated_with_duplicates(arr, key):
+    low,high = 0, len(arr)-1
+    while low<=high:
+        mid = low + (high-low)//2
+        if arr[mid]==key:
+            return mid
+        if arr[low]==arr[mid]==arr[high]:
+            low+=1
+            high-=1
         if arr[low]<arr[mid]:
             if key>=arr[low] and key<arr[mid]:
                 high=mid-1
@@ -213,30 +236,10 @@ def search_rotated_array(arr, key):
             if key>arr[mid] and key<=arr[high]:
                 low=mid+1
             else:
-                high = mid-1
+                high=mid-1
+
     return -1
 
-
-def search_rotated_with_duplicates(arr, key):
-    low,high = 0, len(arr)-1
-    while low<=high:
-        mid = low + (high-low)//2
-        if key == arr[mid]:
-            return mid
-        if arr[low]==arr[mid]==arr[high]:
-            low+=1
-            high-=1
-        elif arr[low]<arr[mid]:
-            if key>=arr[low] and key<arr[mid]:
-                high=mid-1
-            else:
-                low=mid+1
-        else:
-            if key>arr[mid] and key<=arr[high]:
-                low=mid+1
-            else:
-                high=mid-1
-    return -1
 
 # [3,3,7,3]
 #  0,1,2,3
@@ -320,7 +323,7 @@ def main():
   print('10: search_bitonic_array: ',search_bitonic_array([1, 3, 8, 11,12], 11))
   print('10: search_bitonic_array: ',search_bitonic_array([1,10, 9, 8,7], 1))
 
-  print('11. search_rotated_array: ',search_rotated_array([10, 15, 1, 3, 8], 15))
+  print('11. search_rotated_array: ',search_rotated_array([10, 15, 1, 2, 3, 8], 2))
   print('11. search_rotated_array: ',search_rotated_array([4, 5, 7, 9, 10, -1, 2], 10))
 
   print('12. search_rotated_with_duplicates: ',search_rotated_with_duplicates([3, 7, 3, 3, 3], 7))

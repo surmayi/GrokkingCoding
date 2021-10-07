@@ -89,12 +89,13 @@ def longestSubstringWithNoRepeatingChars(arr):
 print('6. longestSubstringWithNoRepeatingChars: ', longestSubstringWithNoRepeatingChars('aabccacbdb'))
 
 
-def longestSubStringWithSameCharAfterReplacement(arr,k):
-    winStart, maxLen, vals = 0,0, {}
+def longestSubStringWithSameCharAfterKReplacement(arr,k):
+    winStart, maxLen, vals,maxFreq = 0,0, {}, 0
     for winEnd in range(len(arr)):
         right = arr[winEnd]
         vals[right]= vals.get(right,0)+1
-        while len(vals)>k+1:
+        maxFreq = max(maxFreq,vals[right])
+        while (winEnd-winStart+1- maxFreq)>k:
             left = arr[winStart]
             vals[left]-=1
             if vals[left]==0:
@@ -103,7 +104,7 @@ def longestSubStringWithSameCharAfterReplacement(arr,k):
         maxLen= max(maxLen, winEnd-winStart+1)
     return maxLen
 
-print('7. longestSubStringWithSameCharAfterReplacement: ', longestSubStringWithSameCharAfterReplacement('aabccbb',1))
+print('7. longestSubStringWithSameCharAfterReplacement: ', longestSubStringWithSameCharAfterKReplacement('aabccbb',2))
 
 
 def longestContiguousArrayWithAll1s(arr,k):
