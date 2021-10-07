@@ -2,32 +2,25 @@ import heapq
 from heapq import *
 
 #1.Find median of Number stream
-
-class Interval:
-    def __init__(self, start, end):
-        self.start = start
-        self.end = end
-
+# Insert - logn
+# find O(1)
 class MedianOfAStream:
     def __init__(self):
-        self.minHeap=[]
-        self.maxHeap =[]
+        self.maxHeap, self.minHeap =[],[]
 
-    def insert_num(self,num):  # O(logn) O(n)
-
+    def insert_num(self,num):
         if not self.maxHeap or -self.maxHeap[0]>=num:
-            heappush(self.maxHeap,-num)
+            heappush(self.maxHeap, -num)
         else:
             heappush(self.minHeap,num)
 
         if len(self.maxHeap)> len(self.minHeap)+1:
-            heappush(self.minHeap,-heappop(self.maxHeap))
+            heappush(self.minHeap, -heappop(self.maxHeap))
         elif len(self.minHeap)> len(self.maxHeap):
-            heappush(self.maxHeap, -heappop(self.minHeap))
+            heappush(self.maxHeap,-heappop(self.minHeap))
 
-
-    def find_median(self): # O(1) , O(n)
-        if len(self.maxHeap)==len(self.minHeap):
+    def find_median(self):
+        if len(self.minHeap)==len(self.maxHeap):
             return -self.maxHeap[0]/2.0 + self.minHeap[0]/2.0
         return -self.maxHeap[0]/1.0
 
@@ -39,15 +32,14 @@ class SlidingWindowMedian:
     def find_sliding_window_median(self,nums,k):  # Time- O(N*k) - k for heap inserts,  Space- O(k)- for heaps, O(n) for result array
         result = [0.0 for i in range(len(nums)-k+1)]
         for i in range(len(nums)):
-            if not self.maxHeap or -self.maxHeap[0]>= nums[i]:
+            if not self.maxHeap or nums[i]<= -self.maxHeap[0]:
                 heappush(self.maxHeap,-nums[i])
             else:
                 heappush(self.minHeap,nums[i])
             self.adjustHeaps()
-
-            if i>= k-1:
+            if i>=k-1:
                 if len(self.maxHeap)==len(self.minHeap):
-                    result[i-k+1]= -self.maxHeap[0]/2.0 + self.minHeap[0]/2.0
+                    result[i-k+1] = -self.maxHeap[0]/2.0 + self.minHeap[0]/2.0
                 else:
                     result[i-k+1] = -self.maxHeap[0]/1.0
                 if nums[i-k+1]<= -self.maxHeap[0]:
@@ -66,47 +58,50 @@ class SlidingWindowMedian:
 
     def remove(self,heap,element):
         ind = heap.index(element)
-        heap[ind]= heap[-1]
+        heap[ind] =heap[-1]
         del heap[-1]
-        if ind<len(heap):
-            heapq._siftup(heap,ind)
-            heapq._siftdown(heap,0,ind)
+        heapify(heap)
+
 
 # O(NlogN+KlogN), where ‘N’ is the total number of projects and ‘K’ is the number of projects we are selecting.
 # O(n)
 def find_maximum_capital(capital, profits, projects, initialAmt):
-    minHeapCap, maxHeapPro =[],[]
-
+    minCapHeap, maxProfitHeap =[],[]
     for i in range(len(capital)):
-        heappush(minHeapCap,(capital[i],i))
+        heappush(minCapHeap,(capital[i],i))
     available= initialAmt
-
     for _ in range(projects):
-        while minHeapCap and minHeapCap[0][0]<= available:
-            capital, i = heappop(minHeapCap)
-            heappush(maxHeapPro,(-profits[i],i))
-        if not maxHeapPro:
+        while minCapHeap and minCapHeap[0][0]<=available:
+            capital, i= heappop(minCapHeap)
+            heappush(maxProfitHeap,(-profits[i],i))
+        if not maxProfitHeap:
             break
-        available += -heappop(maxHeapPro)[0]
+        available += -heappop(maxProfitHeap)[0]
     return available
 
 
-def find_next_interval(intervals):
-    result = [-1 for i in range(len(intervals))]
-    maxEndHeap, maxStartHeap = [],[]
+# Find the index of next interval in the list of intervals for each interval
 
+class Interval:
+    def __init__(self, start, end):
+        self.start = start
+        self.end = end
+
+def find_next_interval(intervals):
+    result =[-1 for i in range(len(intervals))]
+    maxStartHeap, maxEndHeap=[],[]
     for i in range(len(intervals)):
-        heappush(maxEndHeap,(-intervals[i].end,i))
         heappush(maxStartHeap,(-intervals[i].start,i))
+        heappush(maxEndHeap, (-intervals[i].end, i))
 
     for _ in range(len(intervals)):
         topEnd, endInd = heappop(maxEndHeap)
-        if -topEnd<=-maxStartHeap[0][0]:
-            topStart, startInd = heappop(maxStartHeap)
+        if -topEnd<= -maxStartHeap[0][0]:
+            topStart,startInd = maxStartHeap[0]
             while maxStartHeap and -maxStartHeap[0][0]>=-topEnd:
-                topStart,startInd  = heappop(maxStartHeap)
+                topStart,startInd= heappop(maxStartHeap)
             result[endInd]= startInd
-            heappush(maxStartHeap,(topStart,startInd))
+            heappush(maxStartHeap, (-topStart,startInd))
     return result
 
 
@@ -118,6 +113,8 @@ def main():
   medianOfAStream.insert_num(5)
   print("The median is: " + str(medianOfAStream.find_median()))
   medianOfAStream.insert_num(4)
+  print("The median is: " + str(medianOfAStream.find_median()))
+  medianOfAStream.insert_num(6)
   print("The median is: " + str(medianOfAStream.find_median()))
 
   slidingWindowMedian = SlidingWindowMedian()
