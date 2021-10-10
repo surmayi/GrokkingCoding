@@ -180,33 +180,43 @@ print("4th largest number is: " + str(kthLargestNumber.add(13)))
 print("4th largest number is: " + str(kthLargestNumber.add(4)))
 
 
-# O(N + NlogK), O(N)
+# O(K + logN), O(N)
 def find_closest_elements(arr,K,X):
     ind = binary_search(arr,X)
-    low,high = max(0, ind-K), min(len(arr)-1,ind+K)
-    result =[]
-    minHeap =[]
-    for i in range(low,high+1):
-        heappush(minHeap,(abs(arr[i]-X),arr[i]))
-
-    for _ in range(K):
-        result.append(heappop(minHeap)[1])
-    result.sort()
-    return result
+    left,right = max(0, ind-1), min(len(arr)-1,ind+1)
+    result =deque()
+    result.append(arr[ind])
+    while len(result)<K:
+        if left>=0 and right<len(arr):
+            if abs(arr[left]-X)<=abs(arr[right]-X):
+                result.appendleft(arr[left])
+                left-=1
+            else:
+                result.append(arr[right])
+                right+=1
+        elif left>=0:
+            result.appendleft(arr[left])
+            left-=1
+        elif right<len(arr):
+            result.append(arr[right])
+            right+=1
+        else:
+            break
+    return list(result)
 
 def binary_search(arr,X):
     low,high = 0, len(arr)-1
-    res,diff=0,float('inf')
     while low<=high:
         mid = low + (high-low)//2
-        if diff> abs(X-arr[mid]):
-            diff= abs(X-arr[mid])
-            res=mid
-        if arr[mid]<X:
+        if arr[mid]==X:
+            return mid
+        elif arr[mid]<X:
             low=mid+1
         else:
             high=mid-1
-    return res
+    if low<=0:
+        return 0
+    return low-1
 
 
 print("'K' closest numbers to 'X' are: " +str(find_closest_elements([5, 6, 7, 8, 9], 3, 7)))
