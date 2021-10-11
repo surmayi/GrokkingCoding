@@ -248,8 +248,29 @@ def count_rotations(arr):
             high=mid-1
     return 0
 
+def count_rotations_with_duplicates(nums):
+    low, high = 0, len(nums)-1
+    if nums[low]<nums[high]:
+        return nums[low]
+    while low<high:
+        mid= low + (high-low)//2
+        if mid>low and nums[mid]<nums[mid-1]:
+            return nums[mid]
+        if mid<high and nums[mid]>nums[mid+1]:
+            return nums[mid+1]
 
-
+        if nums[low]==nums[mid]==nums[high]:
+            if nums[low]>nums[low+1]:
+                return nums[low+1]
+            low+=1
+            if nums[high]<nums[high-1]:
+                return nums[high]
+            high-=1
+        elif nums[low]<nums[mid] or (nums[low]==nums[mid] and nums[mid]>nums[high]):
+            low=mid+1
+        else:
+            high=mid-1
+    return nums[low]
 
 
 
@@ -319,5 +340,10 @@ def main():
   print('13. count_rotations: ',count_rotations([10, 15, 16, 1, 3, 8]))
   print('13. count_rotations: ',count_rotations([4, 5, 7, 9, 10, -1, 2]))
   print('13. count_rotations: ',count_rotations([1, 3, 8, 10]))
+    
+  print('14. count_rotations_with_duplicates: ',count_rotations_with_duplicates([10, 15, 15, 16,16, 1,3, 3, 8]))
+  print('14. count_rotations_with_duplicates: ',count_rotations_with_duplicates([4, 5, 7, 9, 10, -1,0,2, 1,4,4,4,4,4,4,4]))
+  print('14. count_rotations_with_duplicates: ',count_rotations_with_duplicates([1,1,2, 3, 8, 10]))
+
 
 main()
