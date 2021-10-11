@@ -140,18 +140,14 @@ def search_min_diff_element(arr, key):
 
 #1,2,3,4
 def find_max_in_bitonic_array(arr):
-    low,high = 0, len(arr)-1
-    while low<=high:
-        mid = low + (high-low)//2
-        left = arr[mid-1] if mid>0 else -math.inf
-        right = arr[mid+1] if mid<len(arr)-1 else -math.inf
-        if left<arr[mid]>right:
-            return arr[mid]
-        if arr[mid]>=arr[low]:
-            low=mid+1
+    low,high= 0, len(nums)-1
+    while low<high:
+        mid = low +(high-low)//2
+        if nums[mid]>nums[mid+1]:
+            high=mid
         else:
-            high=mid-1
-    return -1
+            low=mid+1
+    return low
 
 
 # First, we find the peak emenent index then divide array in 2 parts from that index to first search in ascending order then descending order
@@ -240,7 +236,7 @@ def search_rotated_with_duplicates(arr, key):
 #  0,1,2,3
 def count_rotations(arr):
     low, high= 0, len(arr)-1
-    while low<=high:
+    while low<high:
         mid = low + (high-low)//2
         if mid<len(arr) and arr[mid]>arr[mid+1]:
             return mid+1
