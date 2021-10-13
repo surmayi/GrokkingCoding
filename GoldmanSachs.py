@@ -368,5 +368,5 @@ print('print2Smallest: ', print2Smallest([3,5,1,6,12,34,8,0,-23,333]))
 # https://www.geeksforgeeks.org/josephus-problem-set-1-a-on-solution/
 # https://www.geeksforgeeks.org/find-largest-word-dictionary-deleting-characters-given-string/
 # https://www.geeksforgeeks.org/print-all-prime-factors-of-a-given-number/
-#  https://leetcode.com/problems/shortest-subarray-with-sum-at-least-k/
+# https://leetcode.com/problems/shortest-subarray-with-sum-at-least-k/
 # https://leetcode.com/problems/longest-word-in-dictionary-through-deleting/
