@@ -679,6 +679,7 @@ def primeFactorizers(n):
 print('30. Prime Factorizers: ', str(primeFactorizers(315)))
 
 
+# House robber - https://leetcode.com/problems/house-robber/
 def rob(nums):
     if not nums:
         return 0
@@ -691,3 +692,40 @@ def rob(nums):
     return prev
 
 print('31. House Robber max Amount:', rob([1,2,3,1))
+                                           
+                                      
+# Delete and earn - https://leetcode.com/problems/delete-and-earn/
+ def deleteAndEarn(nums):
+    if not nums:
+        return 0
+    if len(nums)==1:
+        return nums[0]
+    sums = [0 for i in range(max(nums)+1)]
+    for num in nums:
+        sums[num]+=num
+    prev_prev_max = sums[0]
+    prev_max=sums[1]
+    for i in range(2,len(sums)):
+        cur= max(prev_prev_max+sums[i], prev_max)
+        prev_prev_max = prev_max
+        prev_max = cur
+    return prev_max
+                                           
+print('32. Delete and Earn (Reduce to house robber)', deleteAndEarn([1,2,3,4]))
+                                           
+# Consecutive numbers sum - https://leetcode.com/problems/consecutive-numbers-sum/
+def consecutiveNumbersSum(n):
+    if n<=1:
+        return n
+    k=1
+    ans=0
+    while k<n:
+        kx = (n-k*(k-1)/2)
+        if kx<=0:
+            break
+        if kx%k==0:
+            ans+=1
+        k+=1
+    return ans                                          
+
+print('33. Count of sets of Sum of consecutive number equal to n',consecutiveNumbersSum(15))                                          
