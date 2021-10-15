@@ -677,3 +677,17 @@ def primeFactorizers(n):
     return result
 
 print('30. Prime Factorizers: ', str(primeFactorizers(315)))
+
+
+def rob(nums):
+    if not nums:
+        return 0
+    prev_prev, prev = 0, nums[0]
+    cur=0
+    for i in range(1,len(nums)):
+        cur = max(prev, prev_prev+nums[i])
+        prev_prev=prev
+        prev=cur
+    return prev
+
+print('31. House Robber max Amount:', rob([1,2,3,1))
