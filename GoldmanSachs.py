@@ -753,6 +753,7 @@ def consecutiveNumbersSum(n):
 
 print('33. Count of sets of Sum of consecutive number equal to n', consecutiveNumbersSum(15))
 
+
 # https://leetcode.com/problems/count-number-of-teams/
 def CountNumberOfTeams(ratings):
     def cal(input):
@@ -774,6 +775,60 @@ def CountNumberOfTeams(ratings):
     result += cal(ratings[::-1])
     return result
 
+
 print('34. Count Number of Teams: ', CountNumberOfTeams([2,5,3,4,1]))
 print('34. Count Number of Teams: ', CountNumberOfTeams([2,1,3]))
+
+
+# https://leetcode.com/problems/fraction-addition-and-subtraction/
+def fractionAdditionAndSubtraction(expression):
+    if not expression:
+        return
+
+    groupedVals = getFractions_helper(expression)
+    darr, narr=[],[]
+
+    for val in groupedVals:
+        val = val.split('/')
+        narr.append(int(val[0]))
+        darr.append(int(val[1]))
+
+    lcm = darr[0]
+    for i in range(1,len(darr)):
+        lcm = lcm_helper(lcm,darr[i])
+
+    for i in range(len(narr)):
+        narr[i] = int(lcm/darr[i])*narr[i]
+
+    totalSum = sum(narr)
+    gcd = gcd_helper(totalSum,lcm)
+    return str(totalSum//gcd)+'/'+ str(lcm//gcd)
+
+
+def gcd_helper(x,y):
+    while y:
+        x,y = y, x%y
+    return x
+
+
+def lcm_helper(x,y):
+    greater = max(x,y)
+    while greater%x!=0 or greater%y!=0:
+        greater+=1
+    return greater
+
+
+def getFractions_helper(expression):
+    result=[]
+    frac=''
+    for ex in expression:
+        if ex in ['+','-'] and '/' in frac:
+            result.append(frac)
+            frac=''
+        frac+=ex
+    result.append(frac)
+    return result
+
+
+print('35. fractionAdditionAndSubtraction: ', fractionAdditionAndSubtraction('-1/2+1/2'))
 
