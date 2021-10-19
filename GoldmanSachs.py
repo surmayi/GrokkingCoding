@@ -913,3 +913,115 @@ def find_H_Index(citations):
 
 
 print('38. Find H-Index of scientist: ', find_H_Index([3,0,6,1,5]))
+
+
+# https://leetcode.com/problems/longest-word-in-dictionary/
+def longestWordInDictionary(words):
+    res=''
+    for word in words:
+        isValid =True
+        for i in range(1,len(word)):
+            if word[:i] not in words:
+                isValid=False
+                break
+        if isValid and len(word)>=len(res):
+            if len(word)==len(res):
+                res= word if word<res else res
+            else:
+                res=word
+    return res
+
+def longestWordInDictionaryOptimised(words):
+    res, word_set = '',set([''])
+    for word in words:
+        if word[:-1] in word_set:
+            word_set.add(word)
+            if len(word)>len(res):
+                res=word
+    return res
+
+
+
+print('39. Longest World in Dictionary: ', longestWordInDictionary(["w","wo","wor","worl","world"]))
+print('39. Longest World in Dictionary Optimised: ', longestWordInDictionaryOptimised(["w","wo","wor","worl","world"]))
+
+
+# https://leetcode.com/problems/design-hashmap/
+class Bucket:
+    def __init__(self):
+        self.bucket=[]
+
+    def put(self,key,value):
+        for ind,val in enumerate(self.bucket):
+            if val[0]==key:
+                self.bucket[ind] = (key,value)
+                return
+        self.bucket.append((key,value))
+
+    def get(self,key):
+        for k,v in self.bucket:
+            if k==key:
+                return v
+        return -1
+
+    def delete(self,key):
+        for ind, val in enumerate(self.bucket):
+            if val[0]==key:
+                del self.bucket[ind]
+
+
+class MyHashMap:
+    def __init__(self):
+        self.max=999
+        self.hashmap =[Bucket() for i in range(self.max)]
+
+    def get_hash(self,key):
+        return key%999
+
+    def put(self,key,value):
+        h = self.get_hash(key)
+        self.hashmap[h].put(key,value)
+
+    def get(self,key):
+        h = self.get_hash(key)
+        return self.hashmap[h].get(key)
+
+    def remove(self,key):
+        h=self.get_hash(key)
+        self.hashmap[h].delete(key)
+
+
+myHashMap = MyHashMap();
+myHashMap.put(1, 1)
+myHashMap.put(2, 2)
+print('40: Get 1- Present ',myHashMap.get(1))
+print('40: Get 3- Absent ',myHashMap.get(3))
+myHashMap.put(2, 1)
+print('40: Get 2- updated ',myHashMap.get(2))
+myHashMap.remove(2)
+print('40: Get 2- Absent ',myHashMap.get(2))
+
+
+
+class DLLNode:
+    def __init__(self):
+        self.key=0
+        self.value=0
+        self.prev=None
+        self.next=None
+
+class LRUCache:
+    def __init__(self):
+        pass
+    def _add_node(self,node):
+        pass
+    def _remove_node(self,node):
+        pass
+    def _move_to_head(self,node):
+        pass
+    def _pop_tail(self):
+        pass
+    def get(self,key):
+        pass
+    def put(self,key,value):
+        pass
