@@ -375,6 +375,7 @@ print('15. print2Smallest: ', print2Smallest([3, 5, 1, 6, 12, 34, 8, 0, 333]))
 
 
 # 4. https://leetcode.com/problems/reaching-points/
+# log(max(ty,tx))
 def reachingPoints(sx, sy, tx, ty):
     while tx >= sx and ty >= sy:
         if tx == ty:
@@ -398,6 +399,7 @@ print('16.reaching points: ', str(reachingPoints(3, 3, 12, 9)))
 
 
 # 7. Graph - https://leetcode.com/problems/number-of-provinces/
+# O(n^2)
 def findProvinceCount(isConnected):
     n = len(isConnected)
     visited = [False for j in range(n)]
@@ -424,44 +426,42 @@ print('17. Province count ', str(findProvinceCount(isConnected)))
 
 
 # https://www.geeksforgeeks.org/size-of-the-largest-trees-in-a-forest-formed-by-the-given-graph/
-def addEdge(adj, u, v):
-    adj[u].append(v)
-    adj[v].append(u)
-
+# O(V+E)
 
 def largestTreeSize(nodes, edges):
+    if nodes<=0 or not edges:
+        return 0
+    graph = {i:[] for i in range(nodes)}
     visited = [False for i in range(nodes)]
-    maxLen = 0
-
+    for edge in edges:
+        parent,child = edge[0],edge[1]
+        graph[parent].append(child)
+        graph[child].append(parent)
+    print(graph)
+    maxSize =0
     for i in range(nodes):
         if not visited[i]:
-            maxLen = max(maxLen, largest_treesize_helper(visited, edges, i))
-    return maxLen
+            maxSize= max(maxSize, largest_tree_helper(graph, visited,i))
+    return maxSize
 
 
-def largest_treesize_helper(visited, edges, i):
-    visited[i] = True
-    size = 1
-    for j in range(len(edges[i])):
-        if not visited[edges[i][j]]:
-            size += largest_treesize_helper(visited, edges, edges[i][j])
+def largest_tree_helper(graph,visited,i):
+    visited[i]=True
+    size=1
+    for j in range(len(graph[i])):
+        if not visited[graph[i][j]]:
+            size += largest_tree_helper(graph,visited,graph[i][j])
     return size
 
 
-V = 6
-edges = [[0, 1], [0, 2], [3, 4], [0, 4], [3, 5]]
-edges = [[] for i in range(V)]
+V = 7
+edges = [[0, 1], [0, 2], [3, 4], [4,6], [3, 5]]
 
-addEdge(edges, 0, 1)
-addEdge(edges, 0, 2)
-addEdge(edges, 3, 4)
-addEdge(edges, 0, 4)
-addEdge(edges, 3, 5)
-print(edges)
 print('18. largestTreeSize: ', str(largestTreeSize(V, edges)))
 
 
 # https://leetcode.com/problems/high-five/
+# NlogN
 def highFive(items):
     vals = {}
     result = []
@@ -496,6 +496,23 @@ print('20. height wise stand', str(heightChecker([5, 2, 3, 4, 1])))
 
 
 # https://leetcode.com/problems/coin-change/
+# 2^n - Time Limit Exceeded
+
+def coinChange_recursion(coins,amount):
+    if amount==0:
+        return 0
+    n =amount+1
+    for coin in coins:
+        if coin<=amount:
+            nxt = coinChange_recursion(coins,amount-coin)
+            if nxt>=0:
+                n = min(n,1+nxt)
+    return -1 if n==amount+1 else n
+
+
+print('21. coin change - Exceed time lmit: ', coinChange_recursion([1, 3, 5], 11))
+
+
 def coinChange(coins, amount):
     if not coins or amount <= 0:
         return 0
@@ -533,23 +550,27 @@ print('22. trap Rainwater: ', str(trapRainwater([0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2
 
 
 # https://www.geeksforgeeks.org/count-inversions-of-size-three-in-a-give-array/
+# O(N^2)
 def countInversions(arr):
     n = len(arr)
-    count = 0
-    for i in range(1, n - 1):
-        small = 0
-        for j in range(i + 1, n):
-            if arr[j] < arr[i]:
-                small += 1
-        large = 0
-        for j in range(i - 1, -1, -1):
-            if arr[j] > arr[i]:
-                large += 1
-        count += small * large
+    if n<=2:
+        return 0
+    count=0
+    for i in range(n):
+        largeBefore=0
+        for j in range(i-1,-1,-1):
+            if arr[j]>arr[i]:
+                largeBefore+=1
+        smallAfter=0
+        for j in range(i+1,n):
+            if arr[j]<arr[i]:
+                smallAfter+=1
+        count += smallAfter*largeBefore
     return count
 
 
-print('23. count inversions: ', countInversions([8, 4, 2, 1]))
+print('23. count inversions-4: ', countInversions([8, 4, 2, 1]))
+print('23. count inversions-2: ', countInversions([9, 6, 4, 5, 8]))
 
 
 # https://leetcode.com/problems/shortest-subarray-with-sum-at-least-k/
@@ -596,13 +617,13 @@ print('25. findLongestWord: ', findLongestWord('abpcplea', ["ale", "apple", "mon
 
 # https://www.geeksforgeeks.org/lexicographical-maximum-substring-string/
 def LexicographicalMaxString(str):
-    maxStr = ''
+    maxStr =''
     for i in range(len(str)):
         maxStr = max(maxStr, str[i:])
     return maxStr
 
 
-print('26. def LexicographicalMaxString: ', LexicographicalMaxString('acbacbc'))
+print('26. LexicographicalMaxString: ', LexicographicalMaxString('acbacbc'))
 
 
 # https://www.geeksforgeeks.org/josephus-problem-set-1-a-on-solution/
@@ -620,6 +641,13 @@ def helper_josephus(result, start, k):
     del result[start]
     return helper_josephus(result, start, k)
 
+# O(N) - Best one
+def josephus(nums,k):
+    start=0
+    while len(nums)>1:
+        start = (start+k)%len(nums)
+        del nums[start]
+    return nums[0]
 
 def josephus2(n, k):
     if n == 1:
@@ -629,6 +657,7 @@ def josephus2(n, k):
 
 
 print('27. Josephus problem: ', josephusProblem([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], 2))
+print('27. Josephus problem: ', josephus([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], 2))
 print('27. Choosen place for Josephus to spare person: ', josephus2(14, 2))
 
 
@@ -680,39 +709,51 @@ str1 = "abpcplea";
 print('28. Find longest string in dictionary: ', largestWordInDIctionaryBydeleteingCharsInString(dict1, str1))
 
 
+# O(L1*L2) - length of both strings
 def longestCommonSubstring(string1, string2):
-    l1, l2 = len(string1), len(string2)
-    dp = [[0 for j in range(l2 + 1)] for i in range(l1 + 1)]
-
-    for i in range(l1 + 1):
-        for j in range(l2 + 1):
-            if i == 0 or j == 0:
-                dp[i][j] = 0
-            elif string1[i - 1] != string2[j - 1]:
-                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
+    l1,l2 = len(string1), len(string2)
+    dp = [[0 for j in range(l2+1)] for i in range(l1+1)]
+    for i in range(1,l1+1):
+        for j in range(1,l2+1):
+            if string1[i-1]==string2[j-1]:
+                dp[i][j] = dp[i-1][j-1]+1
             else:
-                dp[i][j] = dp[i - 1][j - 1] + 1
+                dp[i][j] = max(dp[i-1][j],dp[i][j-1])
     return dp[l1][l2]
 
 
+def longest_common_substring(str1,str2):
+    vals1, vals2 = {},{}
+    for ch in str1:
+        vals1[ch]= vals1.get(ch,0)+1
+    for ch in str2:
+        vals2[ch] =vals2.get(ch,0)+1
+    count=0
+    for key, val in vals1.items():
+        if key in vals2:
+            count += min(val, vals2[key])
+    return count
+
+
+
 X = "AGGTAB"
-Y = "GXTXAYB"
+Y = "GXTXGAYB"
 print("29. Length of LCS is ", longestCommonSubstring(X, Y))
+print("29. Length of LCS2 is ", longest_common_substring(X, Y))
 
 
 # https://www.geeksforgeeks.org/print-all-prime-factors-of-a-given-number/
 # Time - O(sqrt(n))
 def primeFactorizers(n):
-    result = []
-    while n % 2 == 0:
+    result= []
+    while n>0 and n%2==0:
         result.append(2)
-        n = n / 2
-
-    for i in range(3, int(math.sqrt(n)) + 1, 2):
-        if n % i == 0:
+        n//=2
+    for i in range(3,int(math.sqrt(n))+1,2):
+        if n%i==0:
             result.append(i)
-            n = n / i
-    if n > 2:
+            n//=i
+    if n>1:
         result.append(n)
     return result
 
@@ -724,12 +765,11 @@ print('30. Prime Factorizers: ', str(primeFactorizers(315)))
 def rob(nums):
     if not nums:
         return 0
-    prev_prev, prev = 0, nums[0]
-    cur = 0
-    for i in range(1, len(nums)):
-        cur = max(prev, prev_prev + nums[i])
-        prev_prev = prev
-        prev = cur
+    prev_prev, prev = 0,0,
+    for i in range(len(nums)):
+        cur = max(prev_prev+nums[i], prev)
+        prev_prev= prev
+        prev=cur
     return prev
 
 
@@ -737,39 +777,41 @@ print('31. House Robber max Amount:', rob([1, 2, 3, 1]))
 
 
 # Delete and earn - https://leetcode.com/problems/delete-and-earn/
+# Convert this problem into house robber
+# We first transform the nums array into a points array that sums up the total number of points for that particular value. A value of x will be assigned to index x in points.
+# nums: [2, 2, 3, 3, 3, 4] (2 appears 2 times, 3 appears 3 times, 4 appears once)
+# points: [0, 0, 4, 9, 4] <- This is the gold in each house!
 def deleteAndEarn(nums):
     if not nums:
         return 0
-    if len(nums) == 1:
-        return nums[0]
-    sums = [0 for i in range(max(nums) + 1)]
+    sums = [0 for i in range(max(nums)+1)]
     for num in nums:
         sums[num] += num
-    prev_prev_max = sums[0]
-    prev_max = sums[1]
-    for i in range(2, len(sums)):
-        cur = max(prev_prev_max + sums[i], prev_max)
-        prev_prev_max = prev_max
-        prev_max = cur
-    return prev_max
+    prev_prev, prev = 0,0
+    for i in range(len(sums)):
+        cur = max(prev_prev+sums[i], prev)
+        prev_prev= prev
+        prev=cur
+    return prev
 
 
 print('32. Delete and Earn (Reduce to house robber)', deleteAndEarn([1, 2, 3, 4]))
 
 
 # Consecutive numbers sum - https://leetcode.com/problems/consecutive-numbers-sum/
+# O(sqrt(n))
 def consecutiveNumbersSum(n):
-    if n <= 1:
+    if n <=1:
         return n
-    k = 1
-    ans = 0
-    while k < n:
-        kx = (n - k * (k - 1) / 2)
-        if kx <= 0:
+    k=1
+    ans=0
+    while k<n:
+        kx = n-k*(k-1)/2
+        if kx<=0:
             break
-        if kx % k == 0:
-            ans += 1
-        k += 1
+        if kx%k==0:
+            ans+=1
+        k+=1
     return ans
 
 
@@ -779,17 +821,16 @@ print('33. Count of sets of Sum of consecutive number equal to n', consecutiveNu
 # https://leetcode.com/problems/count-number-of-teams/
 def CountNumberOfTeams(ratings):
     def cal(input):
-        l = len(input)
-        dp = [1 for i in range(l)]
-        for i in range(1, l):
-            for j in range(i - 1, -1, -1):
-                if input[j] < input[i]:
-                    dp[i] += 1
-        count = 0
-        for i in range(1, l):
-            for j in range(i - 1, -1, -1):
-                if input[j] < input[i] and dp[j] >= 2:
-                    count += dp[j] - 2 + 1
+        count=0
+        for i in range(len(input)):
+            smallBefore, largeAfter =0,0
+            for j in range(i-1,-1,-1):
+                if input[j]<input[i]:
+                    smallBefore+=1
+            for j in range(i+1,len(input)):
+                if input[j]>input[i]:
+                    largeAfter+=1
+            count += largeAfter*smallBefore
         return count
 
     result = 0
@@ -803,6 +844,7 @@ print('34. Count Number of Teams: ', CountNumberOfTeams([2, 1, 3]))
 
 
 # https://leetcode.com/problems/fraction-addition-and-subtraction/
+# o(N)
 def fractionAdditionAndSubtraction(expression):
     if not expression:
         return
@@ -1476,6 +1518,21 @@ def is_power_of_three(n):
 
 print('54. is_power_of_three: ', is_power_of_three(27))
 print('54. is_power_of_three: ', is_power_of_three(45))
+
+
+# https://leetcode.com/problems/longest-substring-without-repeating-characters/
+def longest_substring_with_repeating_chars(string):
+    winStart, vals, maxLen = 0, {},0
+    for winEnd in range(len(string)):
+        right= string[winEnd]
+        if right in vals:
+            winStart = max(winStart, vals[right]+1)
+        vals[right]= winEnd
+        maxLen = max(maxLen, winEnd-winStart+1)
+    return maxLen
+
+
+print('55. longest_substring_with_repeating_chars: ', longest_substring_with_repeating_chars("abcabcbb"))
 
 
 # https://leetcode.com/problems/longest-substring-without-repeating-characters/
