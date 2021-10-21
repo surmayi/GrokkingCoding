@@ -1240,11 +1240,134 @@ print('45: Even_or_odd_multiplication_array: ', Even_or_odd_multiplication_array
 print('45: Even_or_odd_multiplication_array: ', Even_or_odd_multiplication_array([2, 3, 8]))
 
 
+
 # https://leetcode.com/problems/rotate-array/
+def rotateArray_from_right(nums,k):
+    n = len(nums)
+    k=k%n
+    while k>0:
+        val = nums.pop()
+        nums.insert(0,val)
+        k-=1
+    return nums
+
+print('46. rotateArray_from_right: ', rotateArray_from_right([1,2,3,4,5,6,7,8],3))
+
+
+def rotateArray_from_right_optimised(nums,k):
+    n= len(nums)
+    k=k%n
+
+    def rotate_array(nums,start,end):
+        while start<end:
+            nums[start],nums[end]= nums[end],nums[start]
+            start+=1
+            end-=1
+    rotate_array(nums,0,n-1)
+    rotate_array(nums,0,k-1)
+    rotate_array(nums,k,n-1)
+    return nums
+
+
+print('46. rotateArray_from_right: ', rotateArray_from_right_optimised([1,2,3,4,5,6,7,8],3))
+
+
 # https://leetcode.com/problems/implement-trie-prefix-tree/
+
+class TrieNode:
+    def __init__(self):
+        self.children={}
+        self.isEndWord=False
+
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+
+    def insert_word(self,word):
+        cur = self.root
+        for ch in word:
+            if ch not in cur.children:
+                cur.children[ch]= TrieNode()
+            cur=cur.children[ch]
+        cur.isEndWord=True
+
+    def search_word(self,word):
+        cur = self.root
+        for ch in word:
+            if ch not in cur.children:
+                return False
+            cur = cur.children[ch]
+        return cur.isEndWord
+
+    def starts_with(self,prefix):
+        cur= self.root
+        for ch in prefix:
+            if ch not in cur.children:
+                return False
+            cur = cur.children[ch]
+        return True
+
+
+trie = Trie();
+trie.insert_word("apple")
+print('47. Search word in Trie: ', trie.search_word("apple"))
+print('47. Search word in Trie: ',trie.search_word("app"))
+print('47. Search prefic in Trie: ',trie.starts_with("app"))
+trie.insert_word("app")
+print('47. Search word in Trie: ',trie.search_word("app"))
+
+
 # https://leetcode.com/problems/longest-palindromic-substring/
+def longest_substring_palindrome(string):
+    res=''
+    for i in range(len(string)):
+        res= max(res,longest_substring_palindrome_helper(string,i,i), longest_substring_palindrome_helper(string,i,i+1), key=len)
+    return res
+
+def longest_substring_palindrome_helper(s,l,r):
+    while l>=0 and r<len(s) and s[l]==s[r]:
+        l-=1
+        r+=1
+    return s[l+1:r]
+
+print('48. longest_substring_palindrome: ', longest_substring_palindrome('babad'))
+print('48. longest_substring_palindrome: ', longest_substring_palindrome('bbca'))
+
+
 # https://leetcode.com/problems/palindromic-substrings/
+
+def count_palindromic_substrings(string):
+    count=0
+    n= len(string)
+    for i in range(2*n-1):
+        left,right = i//2, (i+1)//2
+        while left>=0 and right<n and string[left]==string[right]:
+            left-=1
+            right+=1
+            count+=1
+    return count
+
+
+print('49. count_palindromic_substrings: ', count_palindromic_substrings('aaa'))
+print('49. count_palindromic_substrings: ', count_palindromic_substrings('abc'))
+
 # https://leetcode.com/discuss/interview-question/1321204/efficient-harvest-faang-oa-question-2021
+def efficient_harvest(arr,k):
+    maxProfit=-math.inf
+    n = len(arr)
+    for i in range((n+1)//2):
+        sum =0
+        for j in range(k):
+            firstInd = i+j
+            secInd = (firstInd+ n//2)%n
+            sum += arr[firstInd] + arr[secInd]
+        maxProfit= max(sum,maxProfit)
+    return maxProfit
+
+
+print('50. efficient_harvest: ', efficient_harvest([-3,7,3,1,5,1],2))
+print('50. efficient_harvest: ', efficient_harvest([-3,3,6,1],1))
+
 
 
 # https://leetcode.com/problems/path-with-maximum-gold/
