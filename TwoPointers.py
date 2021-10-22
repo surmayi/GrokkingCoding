@@ -1,3 +1,4 @@
+#O(N)
 def TwoSumOfIndexes(arr,target):
     left=0
     right=len(arr)-1
@@ -14,6 +15,7 @@ def TwoSumOfIndexes(arr,target):
 
 print('1. TwoSumOfIndexes: ', TwoSumOfIndexes([1,2,3,4,5,6],6))
 
+#O(N)
 def removeDuplicatesFromSortedList_NoExtraSpace(arr):
     cur, nxt =1,1
     while nxt<len(arr):
@@ -27,6 +29,8 @@ def removeDuplicatesFromSortedList_NoExtraSpace(arr):
 
 print('2. removeDuplicatesFromSortedList_NoExtraSpace: ', removeDuplicatesFromSortedList_NoExtraSpace([2,3,3,3,6,6,9]))
 
+
+#O(N)
 def removeAllOccurancesOfKeyInUnsortedList(arr,key):
     cur, nxt = 0,0
     while nxt<len(arr):
