@@ -42,7 +42,7 @@ def removeAllOccurancesOfKeyInUnsortedList(arr,key):
 
 print('3. removeAllOccurancesOfKeyInUnsortedList: ', removeAllOccurancesOfKeyInUnsortedList([3, 2, 3, 6, 3, 10, 9, 3],3))
 
-
+#O(N)
 def sortListAfterSquaringContainingNegatives(arr):
     sqlist = [0 for i in range(len(arr))]
     left=0
@@ -62,6 +62,7 @@ def sortListAfterSquaringContainingNegatives(arr):
 print('4. sortListAfterSquaringContainingNegatives: ',sortListAfterSquaringContainingNegatives([-3, -1, 0, 1, 2]))
 
 
+#O(N^2)
 def findZeroSumTriplets(arr):
     res=[]
     arr.sort()
@@ -88,6 +89,8 @@ def findZeroSumTriplets(arr):
 print('5. findZeroSumTriplets: ', findZeroSumTriplets([-5, 2, -1, -2, 3]))
 print('5. findZeroSumTriplets: ', findZeroSumTriplets([-3, 0, 1, 2, -1, 1, -2]))
 
+
+#O(N^2)
 def findSumOfTripletThatisClosestToTarget(arr,target):
     arr.sort()
     res,diff=0,float('inf')
@@ -112,6 +115,7 @@ print('6. findSumOfTripletThatisClosestToTarget: ',findSumOfTripletThatisClosest
 print('6. findSumOfTripletThatisClosestToTarget: ',findSumOfTripletThatisClosestToTarget([-3, -1, 1, 2],1))
 
 
+#O(N^2)
 def NumberOfTripletsWithSmallerSumThanTarget(arr,target):
     arr.sort()
     count=0
@@ -131,6 +135,7 @@ def NumberOfTripletsWithSmallerSumThanTarget(arr,target):
 print('7. NumberOfTripletsWithSmallerSumThanTarget: ', NumberOfTripletsWithSmallerSumThanTarget([-1, 4, 2, 1, 3],5))
 
 
+# O(N^3)
 def ListOfTripletsWithSmallerSumThanTarget(arr,target):
     arr.sort()
     res=[]
@@ -154,6 +159,8 @@ print('8. ListOfTripletsWithSmallerSumThanTarget: ',ListOfTripletsWithSmallerSum
 
 from collections import deque
 
+
+# O(N^3)
 def productOfContiguousSubArrayLessThanTarget(arr,target):
     res= []
     prod, winStart=1,0
@@ -171,6 +178,8 @@ def productOfContiguousSubArrayLessThanTarget(arr,target):
 
 print('9. productOfContiguousSubArrayLessThanTarget: ', productOfContiguousSubArrayLessThanTarget([8, 2, 6, 5],50))
 
+
+#O(N)
 def dutchNationalFlagProblem(arr): #Sort all 0,1,2s
     zeros, ones, twos= 0,0, len(arr)-1
     while ones<=twos:
@@ -189,7 +198,7 @@ print('10. dutchNationalFlagProblem: ', dutchNationalFlagProblem([2, 2, 0, 1, 2,
 
 
 # Quadruple Sum to Target (medium)
-
+# O(N^3)
 def search_helper(arr, target, one, two, quads):
     three, four = two+1, len(arr)-1
     while three<four:
@@ -242,7 +251,7 @@ def compareStringContainingBackspaces(arr1,arr2):
 print('12. compareStringContainingBackspaces: ', compareStringContainingBackspaces("xp#", "xyz##"))
 print('12. compareStringContainingBackspaces: ', compareStringContainingBackspaces("xy#z", "xyz#"))
 
-
+#O(N)
 def minSubArrayWindowToMaketheWholeArraySorted(arr):
     winStart, winEnd = 0, len(arr)-1
     while winStart<winEnd and arr[winStart]<arr[winStart+1]:
