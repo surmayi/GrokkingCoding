@@ -4,6 +4,7 @@ class TreeNode:
         self.left, self.right = None, None
 
 
+# O(N)
 def has_path(root, sumRequired):
     if not root:
         return False
@@ -17,7 +18,7 @@ def find_paths(root, required_sum):
     find_paths_helper(root, required_sum, [], allPaths)
     return allPaths
 
-
+# O(NlogN)
 def find_paths_helper(node, sumRequired, curPath, allPaths):
     if not node:
         return
@@ -51,40 +52,41 @@ def all_paths_helper(node, curPath, allPaths):
     del curPath[-1]
 
 
+# O(N)
 def max_sum_path(root):
-    maxSum = 0
-    maxSum = max_sum_path_helper(root, 0, maxSum)
-    return maxSum
+    return max_sum_path_helper(root,0)
 
 
-def max_sum_path_helper(node, curSum, maxSum):
+def max_sum_path_helper(node,curSum):
     if not node:
         return 0
-    curSum += node.val
-    if not node.left and not node.right:
-        return curSum
-    else:
-        return max(max_sum_path_helper(node.left, curSum, maxSum), max_sum_path_helper(node.right, curSum, maxSum))
-
-
-def find_paths2(root):
-    maxSumPath = {}
-    find(root,[],0,maxSumPath)
-    return maxSumPath[max(maxSumPath.keys())]
-
-def find(node,curPath,curSum,maxSumPath):
-    if not node:
-        return
-    curPath.append(node.val)
     curSum+=node.val
     if not node.left and not node.right:
-        maxSumPath[curSum]= list(curPath)
-    find(node.left,curPath,curSum,maxSumPath)
-    find(node.right,curPath,curSum,maxSumPath)
+        return curSum
+    return max(max_sum_path_helper(node.left,curSum), max_sum_path_helper(node.right,curSum))
 
+
+# O(N)
+def find_paths2(root):
+    maxPath=[]
+    find(root,0,[],0,maxPath)
+    return maxPath[-1]
+
+
+def find(node,curSum,curPath,maxSum,maxPath):
+    if not node:
+        return
+    curSum+=node.val
+    curPath.append(node.val)
+    if not node.left and not node.right and curSum>maxSum:
+        maxSum = curSum
+        maxPath.append(list(curPath))
+    find(node.left,curSum,curPath,maxSum,maxPath)
+    find(node.right, curSum, curPath, maxSum, maxPath)
     del curPath[-1]
 
 
+ # O(N)
 def sum_of_paths_asIntegers(root):
     return sumofpathhelper(root,0)
 
@@ -97,6 +99,7 @@ def sumofpathhelper(node,curSum):
     return sumofpathhelper(node.left,curSum)+ sumofpathhelper(node.right,curSum)
 
 
+#O(N)
 def find_path_with_sequence(root, seq):
     target = 0
     for i in range(len(seq)):
@@ -129,7 +132,7 @@ def find_path2_with_sequence_helper(node, seq, curInd):
                                                                                                           seq,
                                                                                                           curInd + 1)
 
-
+# O(N)
 def count_paths(node, S):
     if not node:
         return 0
@@ -158,6 +161,8 @@ def count_paths_from_anynode_helper(node, S, curPath):
     del curPath[-1]
     return pathCount
 
+
+# O(N)
 class TreeDiameter:
     def __init__(self):
         self.diameter = 0
@@ -177,6 +182,7 @@ class TreeDiameter:
         return max(leftTreeHeight,rightTreeHeight)+1
 
 
+# O(N)
 class TreePath:
     def __init__(self):
         self.maxPath = float('-inf')
