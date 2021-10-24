@@ -1,3 +1,5 @@
+
+# O(N*2^N)
 def find_subsets(nums):
     subsets = [[]]
     for num in nums:
@@ -6,6 +8,7 @@ def find_subsets(nums):
     return subsets
 
 
+# O(N*N^2)
 def find_subsets_with_duplicates(nums):
     subsets = [[]]
     start, end = 0, 0
@@ -19,6 +22,8 @@ def find_subsets_with_duplicates(nums):
     return subsets
 
 
+
+# O(N*N!)
 def find_permutations(nums):
     result = []
     find_permutations_helper(nums, 0, [], result)
