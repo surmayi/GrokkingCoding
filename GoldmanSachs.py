@@ -1,4 +1,3 @@
-# 1 https://leetcode.com/problems/robot-bounded-in-circle/
 import bisect
 import math
 from collections import deque
@@ -124,14 +123,14 @@ ll.print_list()
 # 5. https://leetcode.com/problems/minimum-size-subarray-sum/
 # O(N)
 def minSubArrayLen(nums, target):
-    winStart, res, winSum = 0, -math.inf, 0
+    winStart, res, winSum = 0, math.inf, 0
     for winEnd in range(len(nums)):
         winSum += nums[winEnd]
         while winSum >= target:
             res = min(res, winEnd - winStart + 1)
             winSum -= nums[winStart]
             winStart += 1
-        return 0 if res == -math.inf else res
+    return 0 if res == math.inf else res
 
 
 print('5. minSubArrayLen', str(minSubArrayLen([2, 3, 1, 2, 4, 3], 7)))
@@ -1167,7 +1166,6 @@ def profit_targets(nums, k):
     while left<right:
         s= nums[left]+nums[right]
         if s==k:
-            print(nums[left], nums[right])
             count+=1
             left+=1
             right -= 1
@@ -1477,7 +1475,7 @@ print('54. is_power_of_three: ', is_power_of_three(45))
 
 
 # https://leetcode.com/problems/longest-substring-without-repeating-characters/
-def longest_substring_with_repeating_chars(string):
+def longest_substring_without_repeating_chars(string):
     winStart,vals =0, {}
     maxLen=0
     for winEnd in range(len(string)):
@@ -1488,7 +1486,7 @@ def longest_substring_with_repeating_chars(string):
         maxLen= max(maxLen, winEnd-winStart+1)
     return maxLen
 
-print('55. longest_substring_with_repeating_chars: ', longest_substring_with_repeating_chars("abcabcbb"))
+print('55. longest_substring_without_repeating_chars: ', longest_substring_without_repeating_chars("abcabcbb"))
 
 
 # https://leetcode.com/problems/k-diff-pairs-in-an-array/
@@ -1626,13 +1624,95 @@ print('removeAdjacentDuplicates: ', str(removeAdjacentDuplicates('deeedbbcccbdaa
 
 
 
-# https://leetcode.com/problems/snakes-and-ladders/
+
 # https://leetcode.com/problems/reverse-linked-list/
+
 # https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/
-# https://leetcode.com/problems/valid-sudoku/
+
 # https://leetcode.com/problems/linked-list-cycle/
+
 # https://leetcode.com/problems/find-median-from-data-stream/
 
+# https://leetcode.com/problems/valid-sudoku/
+def validSudoku(board):
+    game =set()
+    for i in range(9):
+        for j in range(9):
+            num = board[i][j]
+            if num!='.':
+                if (i,num) in board or (num,j) in board or (i/3,j/3,num) in board:
+                    return False
+                game.add((i,num))
+                game.add((num,j))
+                game.add((i/3,j/3,num))
+    return True
+
+board = [["5","3",".",".","7",".",".",".","."]
+,["6",".",".","1","9","5",".",".","."]
+,[".","9","8",".",".",".",".","6","."]
+,["8",".",".",".","6",".",".",".","3"]
+,["4",".",".","8",".","3",".",".","1"]
+,["7",".",".",".","2",".",".",".","6"]
+,[".","6",".",".",".",".","2","8","."]
+,[".",".",".","4","1","9",".",".","5"]
+,[".",".",".",".","8",".",".","7","9"]]
+print(' is Valid Sudoku: ', str(validSudoku(board)))
+
+
+# https://leetcode.com/problems/snakes-and-ladders/
+
+def snakeAndLadders(board):
+    n = len(board)
+    def label_to_position(label):
+        r, c = divmod(label - 1, n)
+        if r % 2 == 0:
+            return n - 1 - r, c
+        else:
+            return n - 1 - r, n - 1 - c
+    seen = set()
+    queue = deque()
+    queue.append((1, 0))
+    while queue:
+        label, step = queue.popleft()
+        r, c = label_to_position(label)
+        if board[r][c] != -1:
+            label = board[r][c]
+        if label == n * n:
+            return step
+        for x in range(1, 7):
+            new_label = label + x
+            if new_label <= n * n and new_label not in seen:
+                seen.add(new_label)
+                queue.append((new_label, step + 1))
+    return -1
+
+
+
 # https://www.youtube.com/results?search_query=median+of+two+sorted+arrays+leetcode
+def medianOfSortedArrays(nums1,nums2):
+    A = nums1
+    B = nums2
+    n = len(A) + len(B)
+    half = n // 2
+    if len(A) > len(B):
+        A, B = B, A
+    l, r = 0, len(A) - 1
+    while True:
+        i = (l + r) // 2
+        j = half - i - 2
+        Aleft = A[i] if i >= 0 else float('-inf')
+        Aright = A[i + 1] if i < len(A) - 1 else float('inf')
+        Bleft = B[j] if j >= 0 else float('-inf')
+        Bright = B[j + 1] if j < len(B) - 1 else float('inf')
+
+        if Aleft <= Bright and Bleft <= Aright:
+            if n % 2:
+                return min(Aright, Bright)
+            return (max(Aleft, Bleft) + min(Aright, Bright)) / 2.0
+        elif Aleft > Bright:
+            r = i - 1
+        else:
+            l = i + 1
+
 
 
