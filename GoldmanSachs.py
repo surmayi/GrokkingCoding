@@ -2,6 +2,7 @@ import bisect
 import math
 from collections import deque
 
+
 # https://leetcode.com/problems/robot-bounded-in-circle/
 def isRobotBounded(instructions):
     directions = [[0, 1], [1, 0], [0, -1], [-1, 0]]
@@ -47,13 +48,13 @@ print('2. find_pivot_index: ', str((find_pivot_index([2, 1, -1]))))
 
 def print_alternate_sorting(nums):
     nums.sort()
-    n = len(nums)-1
-    i=0
-    while i<n:
-        print(nums[n],end=' ')
-        print(nums[i],end =' ')
-        n-=1
-        i+=1
+    n = len(nums) - 1
+    i = 0
+    while i < n:
+        print(nums[n], end=' ')
+        print(nums[i], end=' ')
+        n -= 1
+        i += 1
 
 
 print('3. print_alternate_sorting: ', end='')
@@ -88,16 +89,14 @@ class LinkedList:
     def remove_duplicates(self):
         duplicates = []
         cur = self.head
-        prev= None
+        prev = None
         while cur:
             if cur.val not in duplicates:
                 duplicates.append(cur.val)
-                prev=cur
+                prev = cur
             else:
-                prev.next= cur.next
-            cur=prev.next
-
-
+                prev.next = cur.next
+            cur = prev.next
 
     def print_list(self):
         cur = self.head
@@ -178,17 +177,17 @@ print('6. string_compression, length- ', res, ' result- ', ''.join(nums[:res]))
 # Explanation: Since Jessica's average is greater than Bob's, Mike's and Jason's average.
 # O(N)
 def find_max_average(input):
-    avgMap ={}
-    for name,avg in input:
+    avgMap = {}
+    for name, avg in input:
         if name in avgMap:
-            avgMap[name][0]+=int(avg)
-            avgMap[name][1]+=1
+            avgMap[name][0] += int(avg)
+            avgMap[name][1] += 1
         else:
-            avgMap[name]= [int(avg),1]
-    maxAvg=0
-    for name,avgs in avgMap.items():
-        avg= avgs[0]/avgs[1]
-        maxAvg=max(maxAvg,avg)
+            avgMap[name] = [int(avg), 1]
+    maxAvg = 0
+    for name, avgs in avgMap.items():
+        avg = avgs[0] / avgs[1]
+        maxAvg = max(maxAvg, avg)
     return maxAvg
 
 
@@ -200,14 +199,14 @@ print('7. find_max_average: ', find_max_average(avgs))
 # leetcode -> l
 # O(N)
 def find_first_unique_char(string):
-    charMap={}
-    ordered=[]
+    charMap = {}
+    ordered = []
     for ch in string:
-        charMap[ch]= charMap.get(ch,0)+1
+        charMap[ch] = charMap.get(ch, 0) + 1
         if ch not in ordered:
             ordered.append(ch)
     for val in ordered:
-        if charMap[val]==1:
+        if charMap[val] == 1:
             return val
 
 
@@ -217,13 +216,13 @@ print('8. find_first_unique_char', find_first_unique_char(string))
 
 #  https://www.geeksforgeeks.org/return-maximum-occurring-character-in-the-input-string/
 def find_maximum_occuring_char_instring(string):
-    strMap={}
-    maxFreq,res=0,''
+    strMap = {}
+    maxFreq, res = 0, ''
     for ch in string:
-        strMap[ch]= strMap.get(ch,0)+1
-        if strMap[ch]>maxFreq:
-            maxFreq=strMap[ch]
-            res=ch
+        strMap[ch] = strMap.get(ch, 0) + 1
+        if strMap[ch] > maxFreq:
+            maxFreq = strMap[ch]
+            res = ch
     return res
 
 
@@ -234,12 +233,12 @@ print('9. find_maximum_occuring_char_instring', find_maximum_occuring_char_instr
 # https://leetcode.com/problems/median-of-two-sorted-arrays/
 # https://leetcode.com/problems/median-of-two-sorted-arrays/discuss/1532231/Binary-Search-Explained
 def findMedianSortedArrays(nums1, nums2):
-    nums = nums1+nums2
+    nums = nums1 + nums2
     nums.sort()
     n = len(nums)
-    if n%2==1:
-        return nums[n//2]
-    return (nums[(n-1)//2]+nums[n//2])/2
+    if n % 2 == 1:
+        return nums[n // 2]
+    return (nums[(n - 1) // 2] + nums[n // 2]) / 2
 
 
 print('10. findMedianSortedArrays', findMedianSortedArrays([1, 2, 4, 4, 5], [1, 2, 5, 9, 10]))
@@ -247,19 +246,19 @@ print('10. findMedianSortedArrays', findMedianSortedArrays([1, 2, 4, 4, 5], [1, 
 
 # #Problem #31 : Longest Uniform Substring
 def longestUniformSubString(str):
-    winStart,maxLen,vals,res =0,0,{},[-1,-1]
+    winStart, maxLen, vals, res = 0, 0, {}, [-1, -1]
     for winEnd in range(len(str)):
         right = str[winEnd]
-        vals[right]= vals.get(right,0)+1
-        while len(vals)>1:
-            left=str[winStart]
-            vals[left]-=1
-            if vals[left]==0:
+        vals[right] = vals.get(right, 0) + 1
+        while len(vals) > 1:
+            left = str[winStart]
+            vals[left] -= 1
+            if vals[left] == 0:
                 del vals[left]
-            winStart+=1
-        if winEnd-winStart+1>maxLen:
-            maxLen=winEnd-winStart+1
-            res=[winStart,winEnd+1]
+            winStart += 1
+        if winEnd - winStart + 1 > maxLen:
+            maxLen = winEnd - winStart + 1
+            res = [winStart, winEnd + 1]
     return str[res[0]:res[1]]
 
 
@@ -269,22 +268,22 @@ print('11. longestUniformSubString: ', longestUniformSubString('aaabccccbbbbba')
 # https://www.geeksforgeeks.org/find-starting-indices-substrings-string-s-made-concatenating-words-listl/
 def subStringIndexWithConcatationOfWordList(arr, words):
     word_len = len(words[0])
-    word_count= len(words)
-    wordMap ={}
-    result=[]
+    word_count = len(words)
+    wordMap = {}
+    result = []
     for word in words:
-        wordMap[word]= wordMap.get(word,0)+1
-    for i in range(len(arr)-word_len*word_count+1):
-        word_seen={}
+        wordMap[word] = wordMap.get(word, 0) + 1
+    for i in range(len(arr) - word_len * word_count + 1):
+        word_seen = {}
         for j in range(word_count):
-            next_word_ind = i+j*word_len
-            next_word = arr[next_word_ind:next_word_ind+word_len]
+            next_word_ind = i + j * word_len
+            next_word = arr[next_word_ind:next_word_ind + word_len]
             if next_word not in wordMap:
                 break
-            word_seen[next_word]= word_seen.get(next_word,0)+1
-            if word_seen[next_word]> wordMap[next_word]:
+            word_seen[next_word] = word_seen.get(next_word, 0) + 1
+            if word_seen[next_word] > wordMap[next_word]:
                 break
-            if j+1 == word_count:
+            if j + 1 == word_count:
                 result.append(i)
     return result
 
@@ -344,16 +343,16 @@ print('14. groupAnagrams: ', groupAnagrams(["eat", "tea", "tan", "ate", "nat", "
 
 # https://www.geeksforgeeks.org/to-find-smallest-and-second-smallest-element-in-an-array/
 def print2Smallest(arr):
-    if len(arr)<=2:
+    if len(arr) <= 2:
         return arr
-    first=second = math.inf
+    first = second = math.inf
     for i in range(len(arr)):
-        if arr[i]<first:
-            second=first
-            first=arr[i]
-        elif arr[i]<second and arr[i]!=first:
-            second=arr[i]
-    return [first,second]
+        if arr[i] < first:
+            second = first
+            first = arr[i]
+        elif arr[i] < second and arr[i] != first:
+            second = arr[i]
+    return [first, second]
 
 
 print('15. print2Smallest: ', print2Smallest([3, 5, 1, 6, 12, 34, 8, 0, 333]))
@@ -414,33 +413,33 @@ print('17. Province count ', str(findProvinceCount(isConnected)))
 # O(V+E)
 
 def largestTreeSize(nodes, edges):
-    if nodes<=0 or not edges:
+    if nodes <= 0 or not edges:
         return 0
-    graph = {i:[] for i in range(nodes)}
-    visited= [False for i in range(nodes)]
+    graph = {i: [] for i in range(nodes)}
+    visited = [False for i in range(nodes)]
 
     for edge in edges:
-        v1,v2= edge[0],edge[1]
+        v1, v2 = edge[0], edge[1]
         graph[v1].append(v2)
         graph[v2].append(v1)
-    count=0
+    count = 0
     for i in range(nodes):
         if not visited[i]:
-            count = max(count,largestTreeSize_helper(graph,visited,i))
+            count = max(count, largestTreeSize_helper(graph, visited, i))
     return count
 
 
-def largestTreeSize_helper(graph,visited,i):
-    visited[i]=True
-    size=1
+def largestTreeSize_helper(graph, visited, i):
+    visited[i] = True
+    size = 1
     for j in range(len(graph[i])):
         if not visited[graph[i][j]]:
-            size+=largestTreeSize_helper(graph,visited,graph[i][j])
+            size += largestTreeSize_helper(graph, visited, graph[i][j])
     return size
 
 
 V = 7
-edges = [[0, 1], [0, 2], [3, 4], [4,6], [3, 5]]
+edges = [[0, 1], [0, 2], [3, 4], [4, 6], [3, 5]]
 
 print('18. largestTreeSize: ', str(largestTreeSize(V, edges)))
 
@@ -483,16 +482,16 @@ print('20. height wise stand', str(heightChecker([5, 2, 3, 4, 1])))
 # https://leetcode.com/problems/coin-change/
 # 2^n - Time Limit Exceeded
 
-def coinChange_recursion(coins,amount):
-    if amount==0:
+def coinChange_recursion(coins, amount):
+    if amount == 0:
         return 0
-    n =amount+1
+    n = amount + 1
     for coin in coins:
-        if coin<=amount:
-            nxt = coinChange_recursion(coins,amount-coin)
-            if nxt>=0:
-                n = min(n,1+nxt)
-    return -1 if n==amount+1 else n
+        if coin <= amount:
+            nxt = coinChange_recursion(coins, amount - coin)
+            if nxt >= 0:
+                n = min(n, 1 + nxt)
+    return -1 if n == amount + 1 else n
 
 
 print('21. coin change - Exceed time lmit: ', coinChange_recursion([1, 3, 5], 11))
@@ -539,18 +538,18 @@ print('22. trap Rainwater: ', str(trapRainwater([0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2
 def countInversions(arr):
     if not arr:
         return 0
-    count=0
-    n=len(arr)
+    count = 0
+    n = len(arr)
     for i in range(n):
-        largeLeft=0
-        smallRight=0
+        largeLeft = 0
+        smallRight = 0
         for j in range(i):
-            if arr[j]>arr[i]:
-                largeLeft+=1
-        for j in range(i+1,n):
-            if arr[j]<arr[i]:
-                smallRight+=1
-        count += smallRight*largeLeft
+            if arr[j] > arr[i]:
+                largeLeft += 1
+        for j in range(i + 1, n):
+            if arr[j] < arr[i]:
+                smallRight += 1
+        count += smallRight * largeLeft
     return count
 
 
@@ -602,9 +601,9 @@ print('25. findLongestWord: ', findLongestWord('abpcplea', ["ale", "apple", "mon
 
 # https://www.geeksforgeeks.org/lexicographical-maximum-substring-string/
 def LexicographicalMaxString(str):
-    maxStr=''
+    maxStr = ''
     for i in range(len(str)):
-        maxStr= max(maxStr,str[i:])
+        maxStr = max(maxStr, str[i:])
     return maxStr
 
 
@@ -626,13 +625,15 @@ def helper_josephus(result, start, k):
     del result[start]
     return helper_josephus(result, start, k)
 
+
 # O(N) - Best one
-def josephus(nums,k):
-    start=0
-    while len(nums)>1:
-        start = (start+k)%len(nums)
+def josephus(nums, k):
+    start = 0
+    while len(nums) > 1:
+        start = (start + k) % len(nums)
         del nums[start]
     return nums[-1]
+
 
 def josephus2(n, k):
     if n == 1:
@@ -648,61 +649,61 @@ print('27. Choosen place for Josephus to spare person: ', josephus2(14, 2))
 
 # https://leetcode.com/problems/diagonal-traverse/submissions/
 def diagonal_traversal(mat):
-    result=[]
-    row,col =0,0
-    rows,cols = len(mat),len(mat[0])
-    upward=True
-    for _ in range(rows*cols):
+    result = []
+    row, col = 0, 0
+    rows, cols = len(mat), len(mat[0])
+    upward = True
+    for _ in range(rows * cols):
         result.append(mat[row][col])
         if upward:
-            if col+1==cols:
-                row+=1
-                upward=False
-            elif row==0:
-                col+=1
-                upward=False
+            if col + 1 == cols:
+                row += 1
+                upward = False
+            elif row == 0:
+                col += 1
+                upward = False
             else:
-                row-=1
-                col+=1
+                row -= 1
+                col += 1
         else:
-            if row+1==rows:
-                col+=1
-                upward=True
-            elif col==0:
-                row+=1
-                upward=True
+            if row + 1 == rows:
+                col += 1
+                upward = True
+            elif col == 0:
+                row += 1
+                upward = True
             else:
-                row+=1
-                col-=1
+                row += 1
+                col -= 1
     return result
 
 
-print('28. Diagonal Traversal of matrix: ', str(diagonal_traversal([[1,2,3],[4,5,6],[7,8,9]])))
+print('28. Diagonal Traversal of matrix: ', str(diagonal_traversal([[1, 2, 3], [4, 5, 6], [7, 8, 9]])))
 
 
 # O(L1*L2) - length of both strings
 def longestCommonSubstring(string1, string2):
-    l1,l2 = len(string1), len(string2)
-    dp = [[0 for j in range(l2+1)] for i in range(l1+1)]
-    for i in range(1,l1+1):
-        for j in range(1,l2+1):
-            if string1[i-1]==string2[j-1]:
-                dp[i][j] = dp[i-1][j-1]+1
+    l1, l2 = len(string1), len(string2)
+    dp = [[0 for j in range(l2 + 1)] for i in range(l1 + 1)]
+    for i in range(1, l1 + 1):
+        for j in range(1, l2 + 1):
+            if string1[i - 1] == string2[j - 1]:
+                dp[i][j] = dp[i - 1][j - 1] + 1
             else:
-                dp[i][j] = max(dp[i-1][j],dp[i][j-1])
+                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
     return dp[l1][l2]
 
 
-def longest_common_substring(str1,str2):
-    vals1, vals2 = {},{}
+def longest_common_substring(str1, str2):
+    vals1, vals2 = {}, {}
     for ch in str1:
-        vals1[ch]= vals1.get(ch,0)+1
+        vals1[ch] = vals1.get(ch, 0) + 1
     for ch in str2:
-        vals2[ch]= vals2.get(ch,0)+1
-    count=0
-    for key,freq in vals1.items():
+        vals2[ch] = vals2.get(ch, 0) + 1
+    count = 0
+    for key, freq in vals1.items():
         if key in vals2:
-            count += min(vals2[key],freq)
+            count += min(vals2[key], freq)
     return count
 
 
@@ -715,16 +716,16 @@ print("29. Length of LCS2 is ", longest_common_substring(X, Y))
 # https://www.geeksforgeeks.org/print-all-prime-factors-of-a-given-number/
 # Time - O(sqrt(n))
 def primeFactorizers(n):
-    if n<=2:
+    if n <= 2:
         return 0
-    result=[]
-    while n%2==0:
-        n//=2
-    for i in range(3, int(math.sqrt(n))+1,2):
-        while n%i==0:
+    result = []
+    while n % 2 == 0:
+        n //= 2
+    for i in range(3, int(math.sqrt(n)) + 1, 2):
+        while n % i == 0:
             result.append(i)
-            n//=i
-    if n>1:
+            n //= i
+    if n > 1:
         result.append(n)
     return result
 
@@ -736,11 +737,11 @@ print('30. Prime Factorizers: ', str(primeFactorizers(315)))
 def rob(nums):
     if not nums:
         return 0
-    prev_prev, prev = 0,0,
+    prev_prev, prev = 0, 0,
     for i in range(len(nums)):
-        cur = max(prev_prev+nums[i], prev)
-        prev_prev= prev
-        prev=cur
+        cur = max(prev_prev + nums[i], prev)
+        prev_prev = prev
+        prev = cur
     return prev
 
 
@@ -755,35 +756,35 @@ print('31. House Robber max Amount:', rob([1, 2, 3, 1]))
 def deleteAndEarn(nums):
     if not nums:
         return 0
-    sums = [0 for i in range(max(nums)+1)]
+    sums = [0 for i in range(max(nums) + 1)]
     for num in nums:
         sums[num] += num
-    prev_prev, prev = 0,0
+    prev_prev, prev = 0, 0
     for i in range(len(sums)):
-        cur = max(prev_prev+sums[i], prev)
-        prev_prev= prev
-        prev=cur
+        cur = max(prev_prev + sums[i], prev)
+        prev_prev = prev
+        prev = cur
     return prev
 
 
 print('32. Delete and Earn (Reduce to house robber)', deleteAndEarn([1, 2, 3, 4]))
-print('32. Delete and Earn (Reduce to house robber)', deleteAndEarn([2,1,2,3,2,2]))
+print('32. Delete and Earn (Reduce to house robber)', deleteAndEarn([2, 1, 2, 3, 2, 2]))
 
 
 # Consecutive numbers sum - https://leetcode.com/problems/consecutive-numbers-sum/
 # O(sqrt(n))
 def consecutiveNumbersSum(n):
-    if n <=1:
+    if n <= 1:
         return n
-    k=1
-    ans=0
-    while k<n:
-        kx = n-k*(k-1)/2
-        if kx<=0:
+    k = 1
+    ans = 0
+    while k < n:
+        kx = n - k * (k - 1) / 2
+        if kx <= 0:
             break
-        if kx%k==0:
-            ans+=1
-        k+=1
+        if kx % k == 0:
+            ans += 1
+        k += 1
     return ans
 
 
@@ -794,16 +795,16 @@ print('33. Count of sets of Sum of consecutive number equal to n', consecutiveNu
 # https://leetcode.com/problems/count-number-of-teams/
 def CountNumberOfTeams(ratings):
     def cal(input):
-        count=0
+        count = 0
         for i in range(len(input)):
-            smallBefore, largeAfter =0,0
-            for j in range(i-1,-1,-1):
-                if input[j]<input[i]:
-                    smallBefore+=1
-            for j in range(i+1,len(input)):
-                if input[j]>input[i]:
-                    largeAfter+=1
-            count += largeAfter*smallBefore
+            smallBefore, largeAfter = 0, 0
+            for j in range(i - 1, -1, -1):
+                if input[j] < input[i]:
+                    smallBefore += 1
+            for j in range(i + 1, len(input)):
+                if input[j] > input[i]:
+                    largeAfter += 1
+            count += largeAfter * smallBefore
         return count
 
     result = 0
@@ -901,7 +902,7 @@ print('36. fraction to Decimal: ', fractionTODecimal(2, 4))
 
 
 # https://leetcode.com/problems/remove-duplicates-from-an-unsorted-linked-list/
-#O(N)
+# O(N)
 def removeAllDuplicatesUnsorted(head):
     if not head:
         return []
@@ -978,8 +979,8 @@ def longestWordInDictionaryOptimised(words):
             word_set.add(word)
             if len(word) > len(res):
                 res = word
-            if len(word)==len(res):
-                res=word if word<res else res
+            if len(word) == len(res):
+                res = word if word < res else res
     return res
 
 
@@ -1150,7 +1151,7 @@ print('42. array_game_brute_force: ', array_game_brute_force([1, 2, 3]))
 
 def array_game_optimized(nums):
     smallest = min(nums)
-    return sum(nums)- smallest*len(nums)
+    return sum(nums) - smallest * len(nums)
 
 
 print('42. array_game_optimized: ', array_game_optimized([3, 4, 6, 6, 3]))
@@ -1161,41 +1162,41 @@ print('42. array_game_optimized: ', array_game_optimized([1, 2, 3]))
 # Problem 61 - Like 2 sum, but get all pairs
 def profit_targets(nums, k):
     nums.sort()
-    count=0
-    left, right = 0, len(nums)-1
-    while left<right:
-        s= nums[left]+nums[right]
-        if s==k:
-            count+=1
-            left+=1
+    count = 0
+    left, right = 0, len(nums) - 1
+    while left < right:
+        s = nums[left] + nums[right]
+        if s == k:
+            count += 1
+            left += 1
             right -= 1
-            while left<right and nums[left]==nums[left-1]:
-                left+=1
-            while right>=0 and nums[right]==nums[right-1]:
-                right-=1
-        elif s<k:
-            left+=1
+            while left < right and nums[left] == nums[left - 1]:
+                left += 1
+            while right >= 0 and nums[right] == nums[right - 1]:
+                right -= 1
+        elif s < k:
+            left += 1
         else:
-            right-=1
+            right -= 1
     return count
 
 
-print('43. profit targets: ', profit_targets([5, 7, 9,9, 13,5, 11, 6, 6, 3, 3], 12))
+print('43. profit targets: ', profit_targets([5, 7, 9, 9, 13, 5, 11, 6, 6, 3, 3], 12))
 print('43. profit targets: ', profit_targets([1, 3, 46, 1, 3, 9], 47))
 
 
 # https://leetcode.com/problems/longest-increasing-subsequence/
 # O(n2)
 def longest_subsequence(nums):
-    sub=[ nums[0]]
+    sub = [nums[0]]
     for num in nums:
-        if num>sub[-1]:
+        if num > sub[-1]:
             sub.append(num)
         else:
-            j=0
-            while num>sub[j]:
-                j+=1
-            sub[j]=num
+            j = 0
+            while num > sub[j]:
+                j += 1
+            sub[j] = num
     return len(sub)
 
 
@@ -1223,22 +1224,22 @@ print('44. Longest Increasing Subsequence: ',
 # https://leetcode.com/discuss/interview-question/571497/hackkerank-online-test-software-developer
 # O(N)
 def Even_or_odd_multiplication_array(nums):
-    n=len(nums)
-    Reven, Rodd = nums[0],nums[1]
-    isAdd=False
-    for i in range(2,n-1,2):
+    n = len(nums)
+    Reven, Rodd = nums[0], nums[1]
+    isAdd = False
+    for i in range(2, n - 1, 2):
         if isAdd:
-            Reven+=nums[i]
-            Rodd+=nums[i+1]
-            isAdd=False
+            Reven += nums[i]
+            Rodd += nums[i + 1]
+            isAdd = False
         else:
-            Reven*=nums[i]
-            Rodd*=nums[i]
-            isAdd=True
-    Reven, Rodd = Reven%2, Rodd%2
-    if Reven>Rodd:
+            Reven *= nums[i]
+            Rodd *= nums[i]
+            isAdd = True
+    Reven, Rodd = Reven % 2, Rodd % 2
+    if Reven > Rodd:
         return 'EVEN'
-    elif Reven<Rodd:
+    elif Reven < Rodd:
         return 'ODD'
     else:
         return 'NEUTRAL'
@@ -1249,47 +1250,48 @@ print('45: Even_or_odd_multiplication_array: ', Even_or_odd_multiplication_array
 print('45: Even_or_odd_multiplication_array: ', Even_or_odd_multiplication_array([2, 3, 8]))
 
 
-
 # https://leetcode.com/problems/rotate-array/
 # O(N)
-def rotateArray_from_right_optimised(nums,k):
-    n= len(nums)
-    k=k%n
+def rotateArray_from_right_optimised(nums, k):
+    n = len(nums)
+    k = k % n
 
-    def rotate_array(nums,start,end):
-        while start<end:
-            nums[start],nums[end]= nums[end],nums[start]
-            start+=1
-            end-=1
-    rotate_array(nums,0,n-1)
-    rotate_array(nums,0,k-1)
-    rotate_array(nums,k,n-1)
+    def rotate_array(nums, start, end):
+        while start < end:
+            nums[start], nums[end] = nums[end], nums[start]
+            start += 1
+            end -= 1
+
+    rotate_array(nums, 0, n - 1)
+    rotate_array(nums, 0, k - 1)
+    rotate_array(nums, k, n - 1)
     return nums
 
 
-print('46. rotateArray_from_right: ', rotateArray_from_right_optimised([1,2,3,4,5,6,7,8],3))
+print('46. rotateArray_from_right: ', rotateArray_from_right_optimised([1, 2, 3, 4, 5, 6, 7, 8], 3))
 
 
 # https://leetcode.com/problems/implement-trie-prefix-tree/
 # O(N)
 class TrieNode:
     def __init__(self):
-        self.children={}
-        self.isEndWord=False
+        self.children = {}
+        self.isEndWord = False
+
 
 class Trie:
     def __init__(self):
         self.root = TrieNode()
 
-    def insert_word(self,word):
+    def insert_word(self, word):
         cur = self.root
         for ch in word:
             if ch not in cur.children:
-                cur.children[ch]= TrieNode()
-            cur=cur.children[ch]
-        cur.isEndWord=True
+                cur.children[ch] = TrieNode()
+            cur = cur.children[ch]
+        cur.isEndWord = True
 
-    def search_word(self,word):
+    def search_word(self, word):
         cur = self.root
         for ch in word:
             if ch not in cur.children:
@@ -1297,8 +1299,8 @@ class Trie:
             cur = cur.children[ch]
         return cur.isEndWord
 
-    def starts_with(self,prefix):
-        cur= self.root
+    def starts_with(self, prefix):
+        cur = self.root
         for ch in prefix:
             if ch not in cur.children:
                 return False
@@ -1309,26 +1311,27 @@ class Trie:
 trie = Trie();
 trie.insert_word("apple")
 print('47. Search word in Trie: ', trie.search_word("apple"))
-print('47. Search word in Trie: ',trie.search_word("app"))
-print('47. Search prefic in Trie: ',trie.starts_with("app"))
+print('47. Search word in Trie: ', trie.search_word("app"))
+print('47. Search prefic in Trie: ', trie.starts_with("app"))
 trie.insert_word("app")
-print('47. Search word in Trie: ',trie.search_word("app"))
+print('47. Search word in Trie: ', trie.search_word("app"))
 
 
 # https://leetcode.com/problems/longest-palindromic-substring/
 # O(N^2)
 def longest_substring_palindrome(string):
-    maxLen, maxPal = 0,''
-    n= len(string)
-    for i in range(n*2-1):
-        left,right = i//2, (i+1)//2
-        while left>=0 and right<n and string[left]==string[right]:
-            if right-left+1>maxLen:
-                maxLen=right-left+1
-                maxPal = string[left:right+1]
-            right+=1
-            left-=1
+    maxLen, maxPal = 0, ''
+    n = len(string)
+    for i in range(n * 2 - 1):
+        left, right = i // 2, (i + 1) // 2
+        while left >= 0 and right < n and string[left] == string[right]:
+            if right - left + 1 > maxLen:
+                maxLen = right - left + 1
+                maxPal = string[left:right + 1]
+            right += 1
+            left -= 1
     return maxPal
+
 
 print('48. longest_substring_palindrome: ', longest_substring_palindrome('babad'))
 print('48. longest_substring_palindrome: ', longest_substring_palindrome('bbca'))
@@ -1337,14 +1340,14 @@ print('48. longest_substring_palindrome: ', longest_substring_palindrome('bbca')
 # https://leetcode.com/problems/palindromic-substrings/
 # O(N)
 def count_palindromic_substrings(string):
-    count=0
-    n= len(string)
-    for i in range(2*n-1):
-        left,right = i//2, (i+1)//2
-        while left>=0 and right<n and string[left]==string[right]:
-            left-=1
-            right+=1
-            count+=1
+    count = 0
+    n = len(string)
+    for i in range(2 * n - 1):
+        left, right = i // 2, (i + 1) // 2
+        while left >= 0 and right < n and string[left] == string[right]:
+            left -= 1
+            right += 1
+            count += 1
     return count
 
 
@@ -1353,21 +1356,20 @@ print('49. count_palindromic_substrings: ', count_palindromic_substrings('abc'))
 
 
 # https://leetcode.com/discuss/interview-question/1321204/efficient-harvest-faang-oa-question-2021
-def efficient_harvest(arr,k):
-    maxProfit=0
-    n=len(arr)
-    for i in range(n//2):
-        profit=0
-        for j in range(i,i+k):
-            j2 = (j+n//2)%n
-            profit += arr[j]+arr[j2]
-        maxProfit=max(maxProfit,profit)
+def efficient_harvest(arr, k):
+    maxProfit = 0
+    n = len(arr)
+    for i in range(n // 2):
+        profit = 0
+        for j in range(i, i + k):
+            j2 = (j + n // 2) % n
+            profit += arr[j] + arr[j2]
+        maxProfit = max(maxProfit, profit)
     return maxProfit
 
 
-print('50. efficient_harvest: ', efficient_harvest([-3,7,3,1,5,1],2))
-print('50. efficient_harvest: ', efficient_harvest([-3,3,6,1],1))
-
+print('50. efficient_harvest: ', efficient_harvest([-3, 7, 3, 1, 5, 1], 2))
+print('50. efficient_harvest: ', efficient_harvest([-3, 3, 6, 1], 1))
 
 
 # https://leetcode.com/problems/path-with-maximum-gold/
@@ -1404,15 +1406,15 @@ print('51. get_maximum_gold: ', get_maximum_gold([[0, 6, 0], [5, 8, 7], [0, 9, 0
 # https://leetcode.com/discuss/interview-question/949160/goldman-sachs-phone-most-frequent-ip-address-from-the-logs
 # both time and space - O(N)
 def most_frequent_ip(logs):
-    ipMap={}
-    maxFreq=0
+    ipMap = {}
+    maxFreq = 0
     for log in logs:
         ip = log.split()[0]
-        ipMap[ip]= ipMap.get(ip,0)+1
-        maxFreq= max(maxFreq,ipMap[ip])
-    result=[]
+        ipMap[ip] = ipMap.get(ip, 0) + 1
+        maxFreq = max(maxFreq, ipMap[ip])
+    result = []
     for key, val in ipMap.items():
-        if val==maxFreq:
+        if val == maxFreq:
             result.append(key)
     return result
 
@@ -1426,48 +1428,51 @@ print('52. most_frequent_ip: ', most_frequent_ip(
 # Merge sort O(nlogn)
 # Implement merge sort, place a counter and increase it whenever right<left while merging.
 def find_number_of_unordered_pair(arr):
-    result,merged= merge_sort(arr)
+    result, merged = merge_sort(arr)
     return result
 
+
 def merge_sort(arr):
-    if len(arr)<=1:
-        return 0,arr
-    mid = len(arr)//2
+    if len(arr) <= 1:
+        return 0, arr
+    mid = len(arr) // 2
     leftcount, left = merge_sort(arr[:mid])
     rightcount, right = merge_sort(arr[mid:])
-    mergecount, merged = merge(left,right)
-    total = mergecount+ leftcount + rightcount
+    mergecount, merged = merge(left, right)
+    total = mergecount + leftcount + rightcount
     return total, merged
 
-def merge(left,right):
-    merged=[]
-    count=0
-    ll,lr = len(left),len(right)
-    i,j=0,0
-    while i<ll and j<lr:
-        if left[i]<=right[j]:
+
+def merge(left, right):
+    merged = []
+    count = 0
+    ll, lr = len(left), len(right)
+    i, j = 0, 0
+    while i < ll and j < lr:
+        if left[i] <= right[j]:
             merged.append(left[i])
-            i+=1
+            i += 1
         else:
-            count+=1
+            count += 1
             merged.append(right[j])
-            j+=1
-    if i<ll:
+            j += 1
+    if i < ll:
         merged.extend(left[i:])
-    if j<lr:
+    if j < lr:
         merged.extend(right[j:])
     return count, merged
+
 
 print('53. find_number_of_unordered_pair: ', find_number_of_unordered_pair([7, 2, 0, 4, 5, 4, 6, 7]))
 
 
 # https://leetcode.com/problems/power-of-three/
 def is_power_of_three(n):
-    while n>1:
-        if n%3!=0:
+    while n > 1:
+        if n % 3 != 0:
             return False
-        n//=3
-    return n==1
+        n //= 3
+    return n == 1
 
 
 print('54. is_power_of_three: ', is_power_of_three(27))
@@ -1476,85 +1481,89 @@ print('54. is_power_of_three: ', is_power_of_three(45))
 
 # https://leetcode.com/problems/longest-substring-without-repeating-characters/
 def longest_substring_without_repeating_chars(string):
-    winStart,vals =0, {}
-    maxLen=0
+    winStart, vals = 0, {}
+    maxLen = 0
     for winEnd in range(len(string)):
         right = string[winEnd]
         if right in vals:
-            winStart = max(winStart,vals[right]+1)
-        vals[right]=winEnd
-        maxLen= max(maxLen, winEnd-winStart+1)
+            winStart = max(winStart, vals[right] + 1)
+        vals[right] = winEnd
+        maxLen = max(maxLen, winEnd - winStart + 1)
     return maxLen
+
 
 print('55. longest_substring_without_repeating_chars: ', longest_substring_without_repeating_chars("abcabcbb"))
 
 
 # https://leetcode.com/problems/k-diff-pairs-in-an-array/
-def findPairs(nums,k):
+def findPairs(nums, k):
     if not nums:
         return 0
-    count=0
-    vals={}
+    count = 0
+    vals = {}
     for num in nums:
-        vals[num]= vals.get(num,0)+1
-    for key,val in vals.items():
-        if k>0 and key+k in vals:
-            count+=1
-        if k==0 and val>=2:
-            count+=1
+        vals[num] = vals.get(num, 0) + 1
+    for key, val in vals.items():
+        if k > 0 and key + k in vals:
+            count += 1
+        if k == 0 and val >= 2:
+            count += 1
     return count
 
-nums = [3,1,4,1,5]
+
+nums = [3, 1, 4, 1, 5]
 k = 2
-print('56. k-diff-pairs-in-an-array: ', findPairs(nums,k))
+print('56. k-diff-pairs-in-an-array: ', findPairs(nums, k))
 
 
 # https://leetcode.com/problems/search-a-2d-matrix-ii/
-def search_in2D_matrix(matrix,target):
-    row,rows= 0, len(matrix)
-    cols=len(matrix[row])-1
-    while row<rows:
-        if matrix[row][0]<=target<=matrix[row][cols]:
-            result = binary_search(matrix[row],target)
-            if result!=-1:
+def search_in2D_matrix(matrix, target):
+    row, rows = 0, len(matrix)
+    cols = len(matrix[row]) - 1
+    while row < rows:
+        if matrix[row][0] <= target <= matrix[row][cols]:
+            result = binary_search(matrix[row], target)
+            if result != -1:
                 return True
-        row+=1
+        row += 1
     return False
 
-def binary_search(arr,target):
-    low,high = 0, len(arr)-1
-    while low<=high:
-        mid = low + (high-low)//2
-        if arr[mid]==target:
+
+def binary_search(arr, target):
+    low, high = 0, len(arr) - 1
+    while low <= high:
+        mid = low + (high - low) // 2
+        if arr[mid] == target:
             return mid
-        elif arr[mid]<target:
-            low=mid+1
+        elif arr[mid] < target:
+            low = mid + 1
         else:
-            high=mid-1
+            high = mid - 1
     return -1
 
 
-matrix = [[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]]
+matrix = [[1, 4, 7, 11, 15], [2, 5, 8, 12, 19], [3, 6, 9, 16, 22], [10, 13, 14, 17, 24], [18, 21, 23, 26, 30]]
 target = 5
-print('57. Search in 2D matrix: ', search_in2D_matrix(matrix,target))
-print('57. Search in 2D matrix: ', search_in2D_matrix(matrix,100))
+print('57. Search in 2D matrix: ', search_in2D_matrix(matrix, target))
+print('57. Search in 2D matrix: ', search_in2D_matrix(matrix, 100))
 
 
-def search_in_2d_matrix_optimized(matrix,target):
+def search_in_2d_matrix_optimized(matrix, target):
     rows, cols = len(matrix), len(matrix[0])
-    row= rows-1
-    col= 0
-    while row>=0 and col<cols:
-        if target<matrix[row][col]:
-            row-=1
-        elif target>matrix[row][col]:
-            col+=1
+    row = rows - 1
+    col = 0
+    while row >= 0 and col < cols:
+        if target < matrix[row][col]:
+            row -= 1
+        elif target > matrix[row][col]:
+            col += 1
         else:
             return True
     return False
 
-print('57. Search in 2D matrix optimized: ', search_in_2d_matrix_optimized(matrix,target))
-print('57. Search in 2D matrix optimized: ', search_in_2d_matrix_optimized(matrix,100))
+
+print('57. Search in 2D matrix optimized: ', search_in_2d_matrix_optimized(matrix, target))
+print('57. Search in 2D matrix optimized: ', search_in_2d_matrix_optimized(matrix, 100))
 
 
 # https://leetcode.com/problems/robot-return-to-origin/
@@ -1582,47 +1591,44 @@ print(' 58. Check if robot-return-to-origin: ', judgeCircleRobot('LDRRLRUULR'))
 print(' 58. Check if robot-return-to-origin: ', judgeCircleRobot('UD'))
 
 
-
-
 # https://leetcode.com/problems/3sum-smaller/
-def threeSumSmaller(nums,target):
+def threeSumSmaller(nums, target):
     nums.sort()
-    count=0
+    count = 0
     for i in range(len(nums)):
-        left,right = i+1,len(nums)-1
-        while left<right:
-            s  = nums[i]+ nums[left]+nums[right]
-            if s<target:
-                count+=right-left
-                left+=1
+        left, right = i + 1, len(nums) - 1
+        while left < right:
+            s = nums[i] + nums[left] + nums[right]
+            if s < target:
+                count += right - left
+                left += 1
             else:
-                right-=1
+                right -= 1
     return count
 
 
-print(' three Sum smaller than target: ', str(threeSumSmaller([-2,0,1,3],2)))
+print(' three Sum smaller than target: ', str(threeSumSmaller([-2, 0, 1, 3], 2)))
+
 
 # https://leetcode.com/problems/remove-all-adjacent-duplicates-in-string-ii/
-def removeAdjacentDuplicates(s,k):
-    stack=[]
+def removeAdjacentDuplicates(s, k):
+    stack = []
     for ch in s:
-        if not stack or stack[-1][0]!=ch:
-            stack.append([ch,1])
+        if not stack or stack[-1][0] != ch:
+            stack.append([ch, 1])
         else:
-            stack[-1][1]+=1
-        if stack[-1][1]==k:
+            stack[-1][1] += 1
+        if stack[-1][1] == k:
             stack.pop()
-    result=[]
+    result = []
     for val in stack:
         for _ in range(val[1]):
             result.append(val[0])
     return ''.join(result)
 
 
-print('removeAdjacentDuplicates: ', str(removeAdjacentDuplicates('abcd',2)))
-print('removeAdjacentDuplicates: ', str(removeAdjacentDuplicates('deeedbbcccbdaa',3)))
-
-
+print('removeAdjacentDuplicates: ', str(removeAdjacentDuplicates('abcd', 2)))
+print('removeAdjacentDuplicates: ', str(removeAdjacentDuplicates('deeedbbcccbdaa', 3)))
 
 
 # https://leetcode.com/problems/reverse-linked-list/
@@ -1635,27 +1641,28 @@ print('removeAdjacentDuplicates: ', str(removeAdjacentDuplicates('deeedbbcccbdaa
 
 # https://leetcode.com/problems/valid-sudoku/
 def validSudoku(board):
-    game =set()
+    game = set()
     for i in range(9):
         for j in range(9):
             num = board[i][j]
-            if num!='.':
-                if (i,num) in board or (num,j) in board or (i/3,j/3,num) in board:
+            if num != '.':
+                if (i, num) in board or (num, j) in board or (i / 3, j / 3, num) in board:
                     return False
-                game.add((i,num))
-                game.add((num,j))
-                game.add((i/3,j/3,num))
+                game.add((i, num))
+                game.add((num, j))
+                game.add((i / 3, j / 3, num))
     return True
 
-board = [["5","3",".",".","7",".",".",".","."]
-,["6",".",".","1","9","5",".",".","."]
-,[".","9","8",".",".",".",".","6","."]
-,["8",".",".",".","6",".",".",".","3"]
-,["4",".",".","8",".","3",".",".","1"]
-,["7",".",".",".","2",".",".",".","6"]
-,[".","6",".",".",".",".","2","8","."]
-,[".",".",".","4","1","9",".",".","5"]
-,[".",".",".",".","8",".",".","7","9"]]
+
+board = [["5", "3", ".", ".", "7", ".", ".", ".", "."]
+    , ["6", ".", ".", "1", "9", "5", ".", ".", "."]
+    , [".", "9", "8", ".", ".", ".", ".", "6", "."]
+    , ["8", ".", ".", ".", "6", ".", ".", ".", "3"]
+    , ["4", ".", ".", "8", ".", "3", ".", ".", "1"]
+    , ["7", ".", ".", ".", "2", ".", ".", ".", "6"]
+    , [".", "6", ".", ".", ".", ".", "2", "8", "."]
+    , [".", ".", ".", "4", "1", "9", ".", ".", "5"]
+    , [".", ".", ".", ".", "8", ".", ".", "7", "9"]]
 print(' is Valid Sudoku: ', str(validSudoku(board)))
 
 
@@ -1664,43 +1671,45 @@ print(' is Valid Sudoku: ', str(validSudoku(board)))
 def snakeAndLadders(board):
     n = len(board)
     flatten = get_flatten_board(board)
-    seen= set()
+    seen = set()
     que = deque()
-    que.append((1,0))
+    que.append((1, 0))
     while que:
         label, step = que.popleft()
-        if flatten[label]!=-1:
+        if flatten[label] != -1:
             label = flatten[label]
-        if label==n*n:
+        if label == n * n:
             return step
-        for x in range(1,7):
-            newlabel = label +x
-            if newlabel<=n*n and newlabel not in seen:
+        for x in range(1, 7):
+            newlabel = label + x
+            if newlabel <= n * n and newlabel not in seen:
                 seen.add(newlabel)
-                que.append((newlabel,step+1))
+                que.append((newlabel, step + 1))
     return -1
 
 
 def get_flatten_board(board):
-    flatten=[-1]
-    i=0
-    n=len(board)
-    for row in range(n-1,-1,-1):
-        if i%2:
-            for col in range(n-1,-1,-1):
+    flatten = [-1]
+    i = 0
+    n = len(board)
+    for row in range(n - 1, -1, -1):
+        if i % 2:
+            for col in range(n - 1, -1, -1):
                 flatten.append(board[row][col])
         else:
             for col in range(n):
                 flatten.append(board[row][col])
-        i+=1
+        i += 1
     return flatten
 
 
-board=[[-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1],[-1,35,-1,-1,13,-1],[-1,-1,-1,-1,-1,-1],[-1,15,-1,-1,-1,-1]]
+board = [[-1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1], [-1, 35, -1, -1, 13, -1],
+         [-1, -1, -1, -1, -1, -1], [-1, 15, -1, -1, -1, -1]]
 print('Snakes and ladder: ', snakeAndLadders(board))
 
+
 # https://www.youtube.com/results?search_query=median+of+two+sorted+arrays+leetcode
-def medianOfSortedArrays(nums1,nums2):
+def medianOfSortedArrays(nums1, nums2):
     A = nums1
     B = nums2
     n = len(A) + len(B)
@@ -1728,26 +1737,138 @@ def medianOfSortedArrays(nums1,nums2):
 
 # https://leetcode.com/problems/container-with-most-water/
 def containerWithMostWater(heights):
-    left, right = 0, len(heights)-1
-    maxVol=0
-    while left<right:
-        vol = min(heights[left],heights[right])* (right-left)
-        maxVol= max(maxVol,vol)
-        if heights[left]>heights[right]:
-            right-=1
+    left, right = 0, len(heights) - 1
+    maxVol = 0
+    while left < right:
+        vol = min(heights[left], heights[right]) * (right - left)
+        maxVol = max(maxVol, vol)
+        if heights[left] > heights[right]:
+            right -= 1
         else:
-            left+=1
+            left += 1
     return maxVol
 
 
-print('containerWithMostWater: ', containerWithMostWater([1,8,6,2,5,4,8,3,7]))
+print('containerWithMostWater: ', containerWithMostWater([1, 8, 6, 2, 5, 4, 8, 3, 7]))
 
 
 # https://leetcode.com/problems/sliding-window-maximum/
-# https://leetcode.com/problems/knight-probability-in-chessboard/
-# https://leetcode.com/problems/elimination-game/
-# https://leetcode.com/problems/circular-array-loop/
-# https://leetcode.com/problems/last-substring-in-lexicographical-order/
-# https://leetcode.com/problems/shortest-word-distance/
-# https://leetcode.com/problems/h-index-ii/
+def slidingWindowMax(nums, k):
+    n = len(nums)
+    if n * k == 0:
+        return []
+    if k == 1:
+        return nums
+    que = deque()
 
+    def clean(ind):
+        if que and que[0] == ind - k:
+            que.popleft()
+        while que and nums[que[-1]] < nums[ind]:
+            que.pop()
+
+    maxInd = 0
+    for i in range(k):
+        clean(i)
+        que.append(i)
+        if nums[maxInd] < nums[i]:
+            maxInd = i
+    result = [nums[maxInd]]
+    for i in range(k, n):
+        clean(i)
+        que.append(i)
+        result.append(nums[que[0]])
+    return result
+
+
+print('Sliding Window Max: ', str(slidingWindowMax([1, 3, -1, -3, 5, 3, 6, 7], 3)))
+
+# https://leetcode.com/problems/knight-probability-in-chessboard/
+def knight_probability(n,k,row,col):
+    moves= ((-1,-2),(-2,-1),(1,2),(2,1),(1,-2),(-2,1),(-1,2),(2,-1))
+    mem={}
+    def dfs(count,x,y,p):
+        prob=0
+        if 0<=x<n and 0<=y<n:
+            if count<k:
+                for mx,my in moves:
+                    newx,newy = mx+x,my+y
+                    if (newx,newy,count+1) not in mem:
+                        mem[(newx,newy,count+1)] = dfs(count+1,newx,newy,p/8)
+                    prob += mem[(newx,newy,count+1)]
+            else:
+                prob=p
+        return prob
+    return dfs(0,row,col,1.0)
+
+
+print('knight_probability: ', knight_probability(3,2,0,0))
+
+
+# https://leetcode.com/problems/elimination-game/
+def lastRemaining(n):
+    head=1
+    step=1
+    left=True
+    while n>1:
+        if left or (n&1):
+            head+=step
+
+        step*=2
+        n//=2
+        left=not left
+    return head
+
+print(' Elimination Game: ', str(lastRemaining(9)))
+
+
+# https://leetcode.com/problems/circular-array-loop/
+def circular_array_loop(nums):
+    for i in range(len(nums)):
+        slow=fast=i
+        direction = nums[i]>0
+        while True:
+            slow = getNextInd(slow,nums,direction)
+            fast = getNextInd(fast,nums,direction)
+            if fast!=-1:
+                fast = getNextInd(fast,nums,direction)
+            if slow==fast or slow==-1 or fast==-1:
+                break
+        if slow!=-1 and slow==fast:
+            return True
+    return False
+
+def getNextInd(ind,nums,direction):
+    if direction!=(nums[ind]>0):
+        return -1
+    nextInd = (ind+nums[ind])%len(nums)
+    if nextInd==ind:
+        return -1
+    return nextInd
+
+print('circular_array_loop: ', circular_array_loop([2,-1,1,2,2]))
+
+
+# https://leetcode.com/problems/shortest-word-distance/
+def shortest_word_distance(words,w1,w2):
+    ind1, ind2= -1,-1
+    result=float('inf')
+    for i in range(len(words)):
+        if words[i]==w1:
+            ind1=i
+        if words[i]==w2:
+            ind2=i
+        if ind1!=-1 and ind2!=-1:
+            result= min(result,abs(ind1-ind2))
+    return result
+
+
+wordsDict = ["practice", "makes", "perfect", "coding", "makes"]
+word1 = "coding"
+word2 = "practice"
+print('shortest_word_distance: ', shortest_word_distance(wordsDict,word1,word2))
+
+
+# https://leetcode.com/problems/last-substring-in-lexicographical-order/
+
+# https://leetcode.com/problems/h-index-ii/
