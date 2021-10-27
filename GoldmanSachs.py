@@ -1620,7 +1620,7 @@ def threeSumSmaller(nums, target):
     return count
 
 
-print(' three Sum smaller than target: ', str(threeSumSmaller([-2, 0, 1, 3], 2)))
+print('59. three Sum smaller than target: ', str(threeSumSmaller([-2, 0, 1, 3], 2)))
 
 
 # https://leetcode.com/problems/remove-all-adjacent-duplicates-in-string-ii/
@@ -1640,8 +1640,8 @@ def removeAdjacentDuplicates(s, k):
     return ''.join(result)
 
 
-print('removeAdjacentDuplicates: ', str(removeAdjacentDuplicates('abcd', 2)))
-print('removeAdjacentDuplicates: ', str(removeAdjacentDuplicates('deeedbbcccbdaa', 3)))
+print('60. removeAdjacentDuplicates: ', str(removeAdjacentDuplicates('abcd', 2)))
+print('60. removeAdjacentDuplicates: ', str(removeAdjacentDuplicates('deeedbbcccbdaa', 3)))
 
 
 # https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/
@@ -1685,7 +1685,7 @@ root.right.left = TreeNode(10)
 root.right.right = TreeNode(5)
 root.right.left.left = TreeNode(20)
 root.right.left.right = TreeNode(17)
-print("Zigzag traversal: " + str(zigzagTraversal(root)))
+print("61. Zigzag traversal: " + str(zigzagTraversal(root)))
 
 root = TreeNode(1)
 root.left = TreeNode(2)
@@ -1694,7 +1694,7 @@ root.left.left = TreeNode(4)
 root.left.right = TreeNode(5)
 root.right.left = TreeNode(6)
 root.right.right = TreeNode(7)
-print("Zigzag traversal: " + str(zigzagTraversal(root)))
+print("61. Zigzag traversal: " + str(zigzagTraversal(root)))
 
 
 # https://leetcode.com/problems/linked-list-cycle/
@@ -1729,13 +1729,13 @@ head.next.next = Node(3)
 head.next.next.next = Node(4)
 head.next.next.next.next = Node(5)
 head.next.next.next.next.next = Node(6)
-print("LinkedList has cycle: " + str(has_cycle(head)))
+print("62. LinkedList has cycle: " + str(has_cycle(head)))
 
 head.next.next.next.next.next.next = head.next.next
-print("LinkedList has cycle: " + str(has_cycle(head)))
+print("62. LinkedList has cycle: " + str(has_cycle(head)))
 
 head.next.next.next.next.next.next = head.next.next.next
-print("LinkedList has cycle: " + str(has_cycle(head)))
+print("62. LinkedList has cycle: " + str(has_cycle(head)))
 
 
 # https://leetcode.com/problems/find-median-from-data-stream/
@@ -1765,9 +1765,9 @@ class MedianFinder(object):
 medianFinder =  MedianFinder();
 medianFinder.addNum(1)
 medianFinder.addNum(2)
-print('Find median', medianFinder.findMedian())
+print('63. Find median', medianFinder.findMedian())
 medianFinder.addNum(3)
-print('Find median', medianFinder.findMedian())
+print('63. Find median', medianFinder.findMedian())
 
 
 # https://leetcode.com/problems/valid-sudoku/
@@ -1794,7 +1794,7 @@ board = [["5", "3", ".", ".", "7", ".", ".", ".", "."]
     , [".", "6", ".", ".", ".", ".", "2", "8", "."]
     , [".", ".", ".", "4", "1", "9", ".", ".", "5"]
     , [".", ".", ".", ".", "8", ".", ".", "7", "9"]]
-print(' is Valid Sudoku: ', str(validSudoku(board)))
+print('64. is Valid Sudoku: ', str(validSudoku(board)))
 
 
 # https://leetcode.com/problems/snakes-and-ladders/
@@ -1835,7 +1835,7 @@ def get_flatten_board(board):
 
 board = [[-1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1], [-1, 35, -1, -1, 13, -1],
          [-1, -1, -1, -1, -1, -1], [-1, 15, -1, -1, -1, -1]]
-print('Snakes and ladder: ', snakeAndLadders(board))
+print('65. Snakes and ladder: ', snakeAndLadders(board))
 
 
 # https://www.youtube.com/results?search_query=median+of+two+sorted+arrays+leetcode
@@ -1879,7 +1879,7 @@ def containerWithMostWater(heights):
     return maxVol
 
 
-print('containerWithMostWater: ', containerWithMostWater([1, 8, 6, 2, 5, 4, 8, 3, 7]))
+print('66. containerWithMostWater: ', containerWithMostWater([1, 8, 6, 2, 5, 4, 8, 3, 7]))
 
 
 # https://leetcode.com/problems/sliding-window-maximum/
@@ -1911,7 +1911,7 @@ def slidingWindowMax(nums, k):
     return result
 
 
-print('Sliding Window Max: ', str(slidingWindowMax([1, 3, -1, -3, 5, 3, 6, 7], 3)))
+print('67. Sliding Window Max: ', str(slidingWindowMax([1, 3, -1, -3, 5, 3, 6, 7], 3)))
 
 # https://leetcode.com/problems/knight-probability-in-chessboard/
 def knight_probability(n,k,row,col):
@@ -1932,7 +1932,7 @@ def knight_probability(n,k,row,col):
     return dfs(0,row,col,1.0)
 
 
-print('knight_probability: ', knight_probability(3,2,0,0))
+print('68. knight_probability: ', knight_probability(3,2,0,0))
 
 
 # https://leetcode.com/problems/elimination-game/
@@ -1949,7 +1949,7 @@ def lastRemaining(n):
         left=not left
     return head
 
-print(' Elimination Game: ', str(lastRemaining(9)))
+print('69. Elimination Game: ', str(lastRemaining(9)))
 
 
 # https://leetcode.com/problems/circular-array-loop/
@@ -1976,7 +1976,7 @@ def getNextInd(ind,nums,direction):
         return -1
     return nextInd
 
-print('circular_array_loop: ', circular_array_loop([2,-1,1,2,2]))
+print('70. circular_array_loop: ', circular_array_loop([2,-1,1,2,2]))
 
 
 # https://leetcode.com/problems/shortest-word-distance/
@@ -1996,7 +1996,7 @@ def shortest_word_distance(words,w1,w2):
 wordsDict = ["practice", "makes", "perfect", "coding", "makes"]
 word1 = "coding"
 word2 = "practice"
-print('shortest_word_distance: ', shortest_word_distance(wordsDict,word1,word2))
+print('71. shortest_word_distance: ', shortest_word_distance(wordsDict,word1,word2))
 
 
 # https://leetcode.com/problems/h-index-ii/
@@ -2014,7 +2014,7 @@ def h_index_ii(citations):
     return n-left
 
 
-print('H Index II, log(n) : ', str(h_index_ii([0,1,3,5,6])))
+print('72. H Index II, log(n) : ', str(h_index_ii([0,1,3,5,6])))
 
 
 # https://leetcode.com/problems/high-five/
@@ -2034,11 +2034,44 @@ def high_five_heap(items):
     return result
 
 
-print('High Five variation: ', str(high_five_heap([[1,91],[1,92],[2,93],[2,97],[1,60],[2,77],[1,65],[1,87],[1,100],[2,100],[2,76]])))
+print('73. High Five variation: ', str(high_five_heap([[1,91],[1,92],[2,93],[2,97],[1,60],[2,77],[1,65],[1,87],[1,100],[2,100],[2,76]])))
 
 
 # https://leetcode.com/problems/min-stack/
+class MinStack:
+    def __init__(self):
+        self.stack=[]
+        self.minStack = []
 
+    def push(self,val):
+        self.stack.append(val)
+        if not self.minStack or self.minStack[-1][0]>val:
+            self.minStack.append([val,1])
+        elif self.minStack[-1][0]==val:
+            self.minStack[-1][1]+=1
+
+    def pop(self):
+        if self.minStack[-1][0]==self.stack[-1]:
+            self.minStack[-1][1]-=1
+            if self.minStack[-1][1]==0:
+                self.minStack.pop()
+        self.stack.pop()
+
+    def top(self):
+        return self.stack[-1]
+
+    def getMin(self):
+        return self.minStack[-1][0]
+
+
+minStack =MinStack()
+minStack.push(-2)
+minStack.push(0)
+minStack.push(-3)
+print('74. Min Stack, get_min: ',minStack.getMin())
+minStack.pop()
+print('74. Min Stack get top: ',minStack.top())
+print('74. Min Stack, get_min: ',minStack.getMin())
 
 
 # https://leetcode.com/problems/find-the-winner-of-the-circular-game
@@ -2051,7 +2084,7 @@ def circular_game(n):
     return n[-1]
 
 
-print('Circular game: ', str(circular_game(5)))
+print('75. Circular game: ', str(circular_game(5)))
 
 
 # https://leetcode.com/problems/minimum-moves-to-equal-array-elements
@@ -2061,17 +2094,167 @@ def min_moves(nums):
     return sum(nums)- n*minele
 
 
-print('min_moves: ', str(min_moves([1,2,3])))
-print('min_moves: ', str(min_moves([1,1,1])))
+print('76. min_moves: ', str(min_moves([1,2,3])))
+print('76. min_moves: ', str(min_moves([1,1,1])))
 
 
 # https://leetcode.com/problems/design-circular-deque
+class MyCircularDeque(object):
 
+    def __init__(self, k):
+        self.size = 0
+        self.k = k
+        self.f = []
+        self.r = []
+
+    def insertFront(self, value):
+        if self.size < self.k:
+            self.f.append(value)
+            self.size += 1
+            return True
+        return False
+
+    def insertLast(self, value):
+        if self.size < self.k:
+            self.r.append(value)
+            self.size += 1
+            return True
+        return False
+
+    def deleteFront(self):
+        if self.size > 0:
+            if self.f:
+                self.f.pop()
+            else:
+                self.r.pop(0)
+            self.size -= 1
+            return True
+        return False
+
+    def deleteLast(self):
+        if self.size > 0:
+            if self.r:
+                self.r.pop()
+            else:
+                self.f.pop(0)
+            self.size -= 1
+            return True
+        return False
+
+    def getFront(self):
+        if self.f:
+            return self.f[-1]
+        elif self.r:
+            return self.r[0]
+        else:
+            return -1
+
+    def getRear(self):
+        if self.r:
+            return self.r[-1]
+        elif self.f:
+            return self.f[0]
+        else:
+            return -1
+
+    def isEmpty(self):
+        return self.size == 0
+
+    def isFull(self):
+        return self.size == self.k
+
+
+myCircularDeque = MyCircularDeque(3);
+print('77. Circular Deque:', myCircularDeque.insertLast(1))  # return True
+print('77. Circular Deque:', myCircularDeque.insertLast(2))  # return True
+print('77. Circular Deque:', myCircularDeque.insertFront(3)) # return True
+print('77. Circular Deque:', myCircularDeque.insertFront(4)) # return False, the queue is full.
+print('77. Circular Deque:', myCircularDeque.getRear())      # return 2
+print('77. Circular Deque:', myCircularDeque.isFull())       # return True
+print('77. Circular Deque:', myCircularDeque.deleteLast())   # return True
+print('77. Circular Deque:', myCircularDeque.insertFront(4)) # return True
+print('77. Circular Deque:', myCircularDeque.getFront()) 
 
 
 # https://leetcode.com/problems/minimum-path-sum
-# https://leetcode.com/problems/max-stack/
+def min_path_sum(grid):
+    n,m = len(grid), len(grid[0])
+    for i in range(1,n):
+        grid[i][0] += grid[i-1][0]
+    for j in range(1,m):
+        grid[0][j] += grid[0][j-1]
+    for i in range(1,n):
+        for j in range(1,m):
+            grid[i][j] += min(grid[i-1][j],grid[i][j-1])
+    return grid[-1][-1]
+
+
+print('78. Min Path Sum: ', str(min_path_sum([[1,3,1],[1,5,1],[4,2,1]])))
+
+
+# https://leetcode.com/problems/minimum-cost-for-tickets/
+def minimum_cost_tickets(days,costs):
+    lastDay = days[-1]
+    days = set(days)
+    total = [0 for i in range(lastDay+1)]
+    for i in range(lastDay+1):
+        if i not in days:
+            total[i]= total[i-1]
+        else:
+            total[i]= min(
+                costs[0]+ total[max(i-1,0)],
+                costs[1]+ total[max(i-7,0)],
+                costs[2]+ total[max(i-30,0)]
+            )
+    return total[-1]
+
+
+print('79. Minimum cost tickets: ', minimum_cost_tickets([1,4,6,7,8,20],[2,7,15]))
+
+
+# https://leetcode.com/problems/gas-station
+def can_complete_gastation_circuit(gas,cost):
+    n = len(gas)
+    cummTotal, currTotal =0,0
+    ans=0
+    for i in range(n):
+        cummTotal+= gas[i]-cost[i]
+        currTotal += gas[i]-cost[i]
+        if currTotal<0:
+            ans=i+1
+            currTotal=0
+    return ans if cummTotal>=0 else -1
+
+
+print('80. Can complete gas station circuit? start at what index? ', str(can_complete_gastation_circuit([1,2,3,4,5],[3,4,5,1,2])))
+
+
+# https://leetcode.com/problems/pascals-triangle-ii/
+def pascal_triangle(n):
+    res=[1]
+    if n<=0:
+        return res
+    for i in range(0,n):
+        temp=[1]
+        for j in range(1,len(res)):
+            temp.append(res[j]+res[j-1])
+        temp.append(1)
+        res=list(temp)
+    return res
+
+
+print('81. Pascals Triangle: ', str(pascal_triangle(4)))
+
+
+
+
+# https://leetcode.com/problems/balance-a-binary-search-tree
+
+
+# https://leetcode.com/problems/design-tic-tac-toe/
 
 # https://leetcode.com/problems/last-substring-in-lexicographical-order/
+# https://leetcode.com/problems/max-stack/
+
 
 
