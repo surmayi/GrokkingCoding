@@ -2351,30 +2351,240 @@ def last_substring_in_lexicographical_order(string):
 
 print('84. last_substring_in_lexicographical_order: ', last_substring_in_lexicographical_order('abab'))
 
-# https://leetcode.com/problems/moving-average-from-data-stream/solution/
+# https://leetcode.com/problems/moving-average-from-data-stream/
+class MovingAverage:
+    def __init__(self,size):
+        self.size=size
+        self.len=0
+        self.que=deque()
+        self.winSum=0
+
+    def next(self,num):
+        self.len+=1
+        self.que.append(num)
+        left = self.que.popleft() if self.len>self.size else 0
+        self.winSum= self.winSum-left+num
+        return self.winSum/(float(min(len(self.que),self.size)))
+
+
+movingAverage = MovingAverage(3)
+print('85. Moving Average: ',movingAverage.next(1))
+print('85. Moving Average: ',movingAverage.next(10))
+print('85. Moving Average: ',movingAverage.next(3))
+print('85. Moving Average: ',movingAverage.next(5))
+
 
 # https://leetcode.com/problems/max-stack/
+class MaxStack:
+    def __init__(self):
+        self.stack=[]
+
+    def push(self,x):
+        if not self.stack:
+            self.stack.append((x,x))
+        else:
+            top = self.peekMax()
+            top = None if top is None else max(top,x)
+            self.stack.append((x,top))
+
+    def pop(self):
+        if not self.stack:
+            return None
+        return self.stack.pop()[0]
+
+    def top(self):
+        if not self.stack:
+            return None
+        return self.stack[-1][0]
+
+    def peekMax(self):
+        if not self.stack:
+            return None
+        return self.stack[-1][1]
+
+    def popMax(self):
+        top = self.top()
+        m= self.peekMax()
+        temp=[]
+        while top!=m:
+            temp.append(self.pop())
+            top = self.top()
+        self.pop()
+        reversed(temp)
+        while temp:
+            self.push(temp.pop())
+        return m
+
+
+stk = MaxStack()
+stk.push(5)
+stk.push(1)
+stk.push(5)
+print('5 5 1 5 1 5')
+print('86. Max Stack: ', stk.top())
+print('86. Max Stack: ', stk.popMax())
+print('86. Max Stack: ', stk.top())
+print('86. Max Stack: ', stk.peekMax())
+print('86. Max Stack: ', stk.pop())
+print('86. Max Stack: ', stk.top())
+
 
 # https://leetcode.com/problems/excel-sheet-column-title/
+def excel_column_number(colNum):
+    res=''
+    while colNum>0:
+        title = chr((colNum-1)%26+65)
+        res=title+res
+        colNum= (colNum-1)//26
+    return res
+
+
+print('87. Excel column Title: ', excel_column_number(28))
+print('87. Excel column Title: ', excel_column_number(2147483647))
+
 
 # https://leetcode.com/problems/closest-binary-search-tree-value/
+def closest_to_target_binary_tree(root, target):
+    closest=root.val
+    while root:
+        closest= closest if abs(target-closest)<abs(target-root.val) else root.val
+        if target<root.val:
+            root= root.left
+        else:
+            root = root.right
+    return closest
+
+root= TreeNode(4)
+root.left= TreeNode(2)
+root.right= TreeNode(5)
+root.left.left = TreeNode(1)
+root.left.right = TreeNode(3)
+print('88. Node closest to target in BT: ', closest_to_target_binary_tree(root,3.47878))
+print('88. Node closest to target in BT: ', closest_to_target_binary_tree(root,100))
+
 
 # https://leetcode.com/problems/remove-duplicates-from-sorted-list/
+def remove_duplicates_from_sorted_linklist(head):
+    cur,prev=head,None
+    while cur:
+        if prev and prev.value==cur.value:
+            prev.next=cur.next
+            cur=cur.next
+        else:
+            prev=cur
+            cur=cur.next
+    return head
+
+ll =Node(1)
+ll.next=Node(1)
+ll.next.next= Node(1)
+ll.next.next.next= Node(1)
+ll.next.next.next.next= Node(2)
+ll.next.next.next.next.next= Node(3)
+ll.next.next.next.next.next.next= Node(3)
+ll.next.next.next.next.next.next.next= Node(3)
+ll.next.next.next.next.next.next.next.next= Node(4)
+ll.next.next.next.next.next.next.next.next.next= Node(4)
+ll= remove_duplicates_from_sorted_linklist(ll)
+ll.print_list()
+
 
 # https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
+def buy_and_sell_stock(prices):
+    maxProfit=0
+    minPrice= prices[0]
+    for i in range(1, len(prices)):
+        profit = prices[i]-minPrice
+        maxProfit = maxProfit if maxProfit>profit else profit
+        minPrice = minPrice if minPrice<prices[i] else prices[i]
+    return maxProfit
+
+
+print('89. Buy and Sell Stock: ', buy_and_sell_stock([7,1,5,3,6,4]))
 
 # https://leetcode.com/problems/pascals-triangle/
+def pascals_triangle2(rows):
+    res=[[1]]
+    for i in range(rows-1):
+        temp=[1]
+        for j in range(1,len(res[-1])):
+            temp.append(res[-1][j-1]+res[-1][j])
+        temp.append(1)
+        res.append(temp)
+    return res
+
+
+print('90. Pascals triangle 2: ', pascals_triangle2(5))
+
 
 # https://leetcode.com/problems/binary-tree-inorder-traversal/
+def inorder_traversal(root):
+    result=[]
+    inorder(root,result)
+    return result
+
+def inorder(node,result):
+    if not node:
+        return
+    inorder(node.left,result)
+    result.append(node.val)
+    inorder(node.right,result)
+
+
+root = TreeNode(12)
+root.left = TreeNode(7)
+root.right = TreeNode(1)
+root.left.left = TreeNode(9)
+root.right.left = TreeNode(10)
+root.right.right = TreeNode(5)
+root.right.left.left = TreeNode(20)
+root.right.left.right = TreeNode(17)
+print('91. Inorder Traversal: ', inorder_traversal(root))
 
 # https://leetcode.com/problems/move-zeroes/
+def move_zero_toEnd(nums):
+    cur,nxt = 0,1
+    n= len(nums)
+    while nxt<n:
+        if nums[cur]==0 and nums[nxt]!=0:
+            nums[cur],nums[nxt]= nums[nxt],nums[cur]
+            cur+=1
+        elif nums[cur]!=0:
+            cur+=1
+        nxt+=1
+    return nums
+
+
+print('92. Move all zeros to end of list: ', move_zero_toEnd([0,1,0,3,12]))
+
 
 # https://leetcode.com/problems/binary-search/
+def binary_searchI(nums,target):
+    low,high=0,len(nums)-1
+    while low<=high:
+        mid = low + (high-low)//2
+        if target==nums[mid]:
+            return mid
+        elif target<nums[mid]:
+            high=mid-1
+        else:
+            low= mid+1
+    return -1
+
+
+print('93. Binary Search Ol Fashion: ', binary_searchI([-1,0,3,5,9,12],9))
+
 
 # https://leetcode.com/problems/maximum-subarray/
+
 
 # https://leetcode.com/problems/palindrome-permutation/
 
 # https://leetcode.com/problems/count-negative-numbers-in-a-sorted-matrix/
+
+
+
+
+# https://leetcode.com/problems/reorder-data-in-log-files/
 
 
