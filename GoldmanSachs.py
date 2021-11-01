@@ -43,7 +43,7 @@ def find_pivot_index(nums):
 print('2. find_pivot_index: ', str((find_pivot_index([2, 1, -1]))))
 
 
-# 6. Given an array of integers, print the array in such a way that the first element is first maximum and second element is first minimum and so on.
+# 3. Given an array of integers, print the array in such a way that the first element is first maximum and second element is first minimum and so on.
 # https://www.geeksforgeeks.org/alternative-sorting/
 
 def print_alternate_sorting(nums):
@@ -65,7 +65,7 @@ print('\n3. Alternate sorting: ', end='')
 print_alternate_sorting([1, 6, 9, 4, 3, 7, 8, 2])
 
 
-# 3. Remove duplicates from linkedlist
+# 4. Remove duplicates from linkedlist
 # O(N)
 class Node:
     def __init__(self, val):
