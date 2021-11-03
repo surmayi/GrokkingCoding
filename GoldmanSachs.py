@@ -4,6 +4,7 @@ from collections import deque
 
 
 # https://leetcode.com/problems/robot-bounded-in-circle/
+# O(N)
 def isRobotBounded(instructions):
     directions = [[0, 1], [1, 0], [0, -1], [-1, 0]]
     idx = 0
