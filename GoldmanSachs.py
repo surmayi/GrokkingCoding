@@ -229,13 +229,14 @@ print('8. find_first_unique_char', find_first_unique_char(string))
 
 #  https://www.geeksforgeeks.org/return-maximum-occurring-character-in-the-input-string/
 def find_maximum_occuring_char_instring(string):
-    strMap = {}
-    maxFreq, res = 0, ''
+    strMap={}
     for ch in string:
-        strMap[ch] = strMap.get(ch, 0) + 1
-        if strMap[ch] > maxFreq:
-            maxFreq = strMap[ch]
-            res = ch
+        strMap[ch]= strMap.get(ch,0)+1
+    maxFreq,res=0,''
+    for ch, freq in strMap.items():
+        if freq>maxFreq:
+            maxFreq=freq
+            res=ch
     return res
 
 
@@ -259,19 +260,20 @@ print('10. findMedianSortedArrays', findMedianSortedArrays([1, 2, 4, 4, 5], [1, 
 
 # #Problem #31 : Longest Uniform Substring
 def longestUniformSubString(str):
-    winStart, maxLen, vals, res = 0, 0, {}, [-1, -1]
+    winStart,maxLen,vals=0,0,{}
+    res=[-1,-1]
     for winEnd in range(len(str)):
         right = str[winEnd]
-        vals[right] = vals.get(right, 0) + 1
-        while len(vals) > 1:
-            left = str[winStart]
-            vals[left] -= 1
-            if vals[left] == 0:
+        vals[right]= vals.get(right,0)+1
+        while len(vals)>1:
+            left=str[winStart]
+            vals[left]-=1
+            if vals[left]==0:
                 del vals[left]
-            winStart += 1
-        if winEnd - winStart + 1 > maxLen:
-            maxLen = winEnd - winStart + 1
-            res = [winStart, winEnd + 1]
+            winStart+=1
+        if maxLen< winEnd-winStart+1:
+            maxLen = winEnd-winStart+1
+            res= [winStart,winEnd+1]
     return str[res[0]:res[1]]
 
 
@@ -478,7 +480,7 @@ scores = [[1, 91], [1, 92], [2, 93], [2, 97], [1, 60], [2, 77], [1, 65], [1, 87]
 print('19. high Five: ', str(highFive(scores)))
 
 
-# https://leetcode.com/problems/height-checker/submissions/
+# https://leetcode.com/problems/height-checker/
 def heightChecker(heights):
     real = list(heights)
     real.sort()
@@ -571,7 +573,7 @@ print('23. count inversions-2: ', countInversions([9, 6, 4, 5, 8]))
 
 
 # https://leetcode.com/problems/shortest-subarray-with-sum-at-least-k/
-def shortestSubArratWithSum_atleastK(nums, k):
+def shortestSubArrayWithSum_atleastK(nums, k):
     if not nums:
         return -1
     sums = [0 for i in range(len(nums) + 1)]
@@ -589,7 +591,7 @@ def shortestSubArratWithSum_atleastK(nums, k):
     return -1 if cur > len(nums) else cur
 
 
-print('24. shortestSubArrayWithSum_atleastK: ', shortestSubArratWithSum_atleastK([2, -1, 2], 3))
+print('24. shortestSubArrayWithSum_atleastK: ', shortestSubArrayWithSum_atleastK([2, -1, 2], 3))
 
 
 # https://leetcode.com/problems/longest-word-in-dictionary-through-deleting/
@@ -660,7 +662,7 @@ print('27. Josephus problem- Best: ', josephus([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1
 print('27. Choosen place for Josephus to spare person: ', josephus2(14, 2))
 
 
-# https://leetcode.com/problems/diagonal-traverse/submissions/
+# https://leetcode.com/problems/diagonal-traverse/
 def diagonal_traversal(mat):
     result = []
     row, col = 0, 0
@@ -3196,13 +3198,107 @@ root.right.right.left = TreeNode(9)
 print('120. countCompleteTreeNodes: ', str(countCompleteTreeNodes(root)))
 
 
-
 # https://leetcode.com/problems/search-in-rotated-sorted-array/
+def search_in_rotated_sorted_array(nums,target):
+    if not nums:
+        return -1
+    low,high = 0, len(nums)-1
+    while low<=high:
+        mid = low +(high-low)//2
+        if nums[mid]==target:
+            return mid
+        elif nums[low]<=nums[mid]:
+            if nums[low]<=target<nums[mid]:
+                high=mid-1
+            else:
+                low=mid+1
+        else:
+            if nums[mid]<target<=nums[high]:
+                low=mid+1
+            else:
+                high=mid-1
+    return -1
+
+
+print('121. Search in Rotated Sorted Array: ', search_in_rotated_sorted_array([4,5,6,7,0,1,2,3,4,4,4],0))
+
+
 # https://leetcode.com/problems/find-minimum-in-rotated-sorted-array
+def find_min_rotated_sorted_array(nums):
+    if not nums:
+        return
+    low,high = 0, len(nums)-1
+    if nums[low]<=nums[high]:
+        return nums[low]
+    while low<=high:
+        mid = low + (high-low)//2
+        if mid<high and nums[mid]>nums[mid+1]:
+            return nums[mid+1]
+        if mid>low and nums[mid-1]>nums[mid]:
+            return nums[mid]
+        if nums[low]<=nums[mid]:
+            low=mid+1
+        else:
+            high= mid-1
+    return -1
+
+
+print('122. find_min_rotated_sorted_array: ', str(find_min_rotated_sorted_array([3,4,4,5,1,2,2])))
+
+
 # https://leetcode.com/problems/jump-game/
+def canJump(nums):
+    farthest= 0
+    for ind, val in enumerate(nums):
+        if ind>farthest:
+            return False
+        farthest= max(farthest, ind+val)
+    return True
+
+
+print('123. Can Jump: ', str(canJump([2,3,1,1,4])))
+
+
 # https://leetcode.com/problems/word-ladder/
+def wordLadder(beginWord,endWord, wordList):
+    wordList = set(wordList)
+    chSet = {ch for word in wordList for ch in word}
+    que = deque()
+    que.append([beginWord,1])
+    while que:
+        word,length = que.popleft()
+        if word==endWord:
+            return length
+        for i in range(len(word)):
+            for ch in chSet:
+                nextword = word[:i]+ch+word[i+1:]
+                if nextword in wordList:
+                    wordList.remove(nextword)
+                    que.append([nextword,length+1])
+    return 0
+
+
+print('124. Word Ladder: ', wordLadder("hit","cog",["hot","dot","dog","lot","log","cog"]))
+
+
+
 # https://leetcode.com/problems/maximal-square/
-# https://leetcode.com/problems/maximal-square/discuss/1538349/Python-oror-Easy-Solution
+def maximal_square(matrix):
+    if not matrix:
+        return 0
+    rows,cols = len(matrix), len(matrix[0])
+    dp =[[0 for j in range(cols+1)] for i in range(rows+1)]
+    maxSize=0
+    for i in range(rows):
+        for j in range(cols):
+            if matrix[i][j]=='1':
+                dp[i+1][j+1] = min(dp[i][j],dp[i+1][j],dp[i][j+1])+1
+                maxSize= max(maxSize,dp[i+1][j+1])
+    return maxSize*maxSize
+
+
+print('125. Maximal Square: ', maximal_square([["1","0","1","0","0"],["1","0","1","1","1"],["1","1","1","1","1"],["1","0","0","1","0"]]))
+
 
 
 
