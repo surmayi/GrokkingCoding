@@ -1,5 +1,6 @@
 # All Sliding Window Problems
 
+# O(N)
 def findAvg(arr,k):
     winStart, winSum =0, 0
     result=[]
