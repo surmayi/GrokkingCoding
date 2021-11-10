@@ -760,11 +760,10 @@ def rob(nums):
 print('31. House Robber max Amount:', rob([1, 2, 3, 1]))
 
 
-# Delete and earn - https://leetcode.com/problems/delete-and-earn/
-# Convert this problem into house robber
-# We first transform the nums array into a points array that sums up the total number of points for that particular value. A value of x will be assigned to index x in points.
-# nums: [2, 2, 3, 3, 3, 4] (2 appears 2 times, 3 appears 3 times, 4 appears once)
-# points: [0, 0, 4, 9, 4] <- This is the gold in each house!
+# Delete and earn - https://leetcode.com/problems/delete-and-earn/ Convert this problem into house robber We first
+# transform the nums array into a points array that sums up the total number of points for that particular value. A
+# value of x will be assigned to index x in points. nums: [2, 2, 3, 3, 3, 4] (2 appears 2 times, 3 appears 3 times,
+# 4 appears once) points: [0, 0, 4, 9, 4] <- This is the gold in each house!
 def deleteAndEarn(nums):
     if not nums:
         return 0
@@ -1492,6 +1491,17 @@ def is_power_of_three(n):
 
 print('54. is_power_of_three: ', is_power_of_three(27))
 print('54. is_power_of_three: ', is_power_of_three(45))
+
+
+def is_power_of_three_optimized(n):
+    if n<=0:
+        return False
+    d= int(math.log2(n)/math.log2(3))
+    return pow(3,d)==n
+
+
+print('54. is_power_of_three: ', is_power_of_three_optimized(27))
+print('54. is_power_of_three: ', is_power_of_three_optimized(45))
 
 
 # https://leetcode.com/problems/longest-substring-without-repeating-characters/
