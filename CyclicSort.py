@@ -1,10 +1,9 @@
-#O(N)
 def cyclic_sort(nums):
-    start,end = 1, len(nums)
+    start,end = 0,len(nums)
     while start<end:
-        if nums[start-1]!=start:
-            ind = nums[start-1]-1
-            nums[start-1], nums[ind]= nums[ind], nums[start-1]
+        ind = nums[start]-1
+        if nums[ind]!=nums[start]:
+            nums[ind], nums[start]= nums[start],nums[ind]
         else:
             start+=1
     return nums
@@ -43,26 +42,24 @@ def find_duplicate(nums):
     start,end = 0, len(nums)
     while start<end:
         ind = nums[start]-1
-        if nums[start]-1 !=start:
-            if nums[start]==nums[ind]:
-                return nums[start]
-            nums[start],nums[ind]=nums[ind], nums[start]
+        if nums[start]!=nums[ind]:
+            nums[start],nums[ind]= nums[ind],nums[start]
         else:
             start+=1
+    for i in range(end):
+        if nums[i]!=i+1:
+            return nums[i]
     return -1
 
 
 def find_duplicate_cyclic(nums):
-    slow, fast = nums[0], nums[nums[0]]
-    while slow!=fast:
-        slow= nums[slow]
+    slow,fast = nums[0], nums[nums[0]]
+    while True:
+        slow = nums[slow]
         fast = nums[nums[fast]]
-    count=1
-    cur = nums[slow]
-    while cur!=slow:
-        count+=1
-        cur=nums[cur]
-    return cur
+        if slow==fast:
+            break
+    return slow
 
 
 def find_all_duplicates(nums):
@@ -99,7 +96,7 @@ def find_first_smallest_missing_positive(nums):
     start,end = 0, len(nums)
     while start<end:
         ind = nums[start]-1
-        if ind!=start and ind>=0 and ind<end:
+        if ind!=start and 0 <= ind < end:
             nums[start], nums[ind]= nums[ind], nums[start]
         else:
             start+=1
@@ -113,7 +110,7 @@ def find_first_k_missing_positive(nums, k):
     start,end = 0, len(nums)
     while start<end:
         ind = nums[start]-1
-        if ind>=0 and ind<end and nums[start]!=nums[ind]:
+        if 0 <= ind < end and nums[start]!=nums[ind]:
             nums[ind], nums[start]= nums[start], nums[ind]
         else:
             start+=1
@@ -139,6 +136,7 @@ def main():
 
   print("2.find_missing_number ",find_missing_number([4, 0, 3, 1]))
   print("2.find_missing_number ",find_missing_number([8, 3, 5, 2, 4, 6, 0, 1]))
+  print("2.find_missing_number ", find_missing_number([7, 3, 5, 2, 4, 6, 0, 1]))
 
   print("3. find_missing_numbers ", find_missing_numbers([2, 3, 1, 8, 2, 3, 5, 1]))
   print("3. find_missing_numbers ",find_missing_numbers([2, 4, 1, 2]))
@@ -148,9 +146,9 @@ def main():
   print("4. find_duplicate ",find_duplicate([2, 1, 3, 3, 5, 4]))
   print("4. find_duplicate ",find_duplicate([2, 4, 1, 4, 4]))
 
-  print("5. find_duplicate without modifying ",find_duplicate([1, 1, 4, 3, 2]))
-  print("5. find_duplicate without modifying ",find_duplicate([2, 1, 5, 3, 5, 4]))
-  print("5. find_duplicate without modifying ",find_duplicate([2, 4, 1, 4, 4]))
+  print("5. find_duplicate without modifying ",find_duplicate_cyclic([1, 1, 4, 3, 2]))
+  print("5. find_duplicate without modifying ",find_duplicate_cyclic([2, 1, 5, 3, 5, 4]))
+  print("5. find_duplicate without modifying ",find_duplicate_cyclic([2, 4, 1, 4, 4]))
 
   print("6: find_all_duplicates ",find_all_duplicates([3, 4, 4, 5, 5]))
   print("6: find_all_duplicates ",find_all_duplicates([5, 4, 7, 2, 3, 5, 3]))
