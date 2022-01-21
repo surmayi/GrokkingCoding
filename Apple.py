@@ -42,3 +42,15 @@ def reverseWords(s) -> str:
 
 
 print('3. Reverse words in String: ', reverseWords("Let's take LeetCode contest"))
+
+
+# https://leetcode.com/problems/find-the-highest-altitude/
+def largestAltitude(gain):
+    gain = [0] + gain
+    for i in range(1, len(gain)):
+        gain[i] += gain[i - 1]
+    return max(gain)
+
+
+print('4. Largest Altitude Cyclist: ', largestAltitude([-5,1,5,0,-7]))
+print('4. Largest Altitude Cyclist: ', largestAltitude([-4,-3,-2,-1,4,3,2]))
