@@ -227,6 +227,87 @@ def remove_duplicate_letters(s):
 print('15. Remove duplicate letters: ', remove_duplicate_letters('cbacdcbc'))
 
 
+# https://leetcode.com/problems/number-of-subarrays-with-bounded-maximum/
+def numSubarrayBoundMax(nums,left,right):
+    def count(bound):
+        ans=cur=0
+        for x in nums:
+            cur=cur+1 if x<=bound else 0
+            ans+=cur
+        return ans
+    return count(right)- count(left-1)
+
+
+print('16. Number of Subarrays with Bounded Maximum: ', numSubarrayBoundMax([2,9,2,5,6],2,8))
+
+
+# https://leetcode.com/problems/h-index/
+def h_index_1(citations):
+    citations.sort(reverse=True)
+    for i in range(len(citations)):
+        if i>=citations[i]:
+            return i
+    return len(citations)
+
+
+print('17. H- Index I ', h_index_1([3,0,6,1,5]))
+
+
+# https://leetcode.com/problems/design-circular-queue/
+class MyCircularQueue:
+
+    def __init__(self, k: int):
+        self.list=[None]*k
+        self.front =self.rear=0
+
+    def enQueue(self, value: int) -> bool:
+        if self.isFull():
+            return False
+        self.list[self.rear]= value
+        self.rear=(self.rear+1)%len(self.list)
+        return True
+
+
+    def deQueue(self) -> bool:
+        if self.isEmpty():
+            return False
+        self.list[self.front]=None
+        self.front= (self.front+1)%len(self.list)
+        return True
+
+
+    def Front(self) -> int:
+        if self.isEmpty():
+            return -1
+        return self.list[self.front]
+
+    def Rear(self) -> int:
+        if self.isEmpty():
+            return -1
+        return self.list[self.rear-1]
+
+    def isEmpty(self) -> bool:
+        return self.front==self.rear and self.list[self.front] is None
+
+    def isFull(self) -> bool:
+        return self.front==self.rear and self.list[self.front] is not None
+
+
+myCircularQueue =  MyCircularQueue(3)
+print('18: Circular Queue: true ',myCircularQueue.enQueue(1))
+print('18: Circular Queue: true ',myCircularQueue.enQueue(2))
+print('18: Circular Queue: true ',myCircularQueue.enQueue(3))
+print('18: Circular Queue: false ',myCircularQueue.enQueue(4))
+print('18: Circular Queue: 3 ',myCircularQueue.Rear())
+print('18: Circular Queue: true ',myCircularQueue.isFull())
+print('18: Circular Queue: true ',myCircularQueue.deQueue())
+print('18: Circular Queue: true ',myCircularQueue.enQueue(4))
+print('18: Circular Queue: 4 ',myCircularQueue.Rear())
+
+
+
+
+
 '''
 from heapq import *
 
