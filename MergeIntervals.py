@@ -12,6 +12,7 @@ class Interval:
     def print_interval(self):
         print("[" + str(self.start) + ", " + str(self.end) + "]", end='')
 
+
 # Time - O(NlogN) (for sorting), space- O(N)
 def merged(intervals):
     if len(intervals) <= 1:
@@ -32,8 +33,8 @@ def merged(intervals):
 # TIme - O(NlogN) for sorting, space-O(N) for sorting
 def check_if_intervals_overlap(intervals):
     intervals.sort(key=lambda x:x.start)
-    for i in range(1, len(intervals)):
-        if intervals[i - 1].end > intervals[i].start:
+    for i in range(1,len(intervals)):
+        if intervals[i-1].end>intervals[i].start:
             return True
     return False
 
@@ -57,7 +58,7 @@ def insert_new_interval_and_merge(intervals, new_interval):
     return merged
 
 
-#Time = O(N+M), space = O(1), apart from space required for result
+#   Time = O(N+M), space = O(1), apart from space required for result
 def intervals_intersection(intervals_a, intervals_b):
     if not intervals_a or not intervals_b:
         return
@@ -80,7 +81,7 @@ def intervals_intersection(intervals_a, intervals_b):
     return result
 
 
-#Time - O(NlogN) for sorting, space -O(N) for sorting
+#   Time - O(NlogN) for sorting, space -O(N) for sorting
 def conflicting_appointments(intervals):
     intervals.sort(key=lambda x: x[0])
     for i in range(1, len(intervals)):
@@ -89,20 +90,21 @@ def conflicting_appointments(intervals):
     return True
 
 
-# TIme - O(NlogN) Space- O(N)
+#  TIme - O(NlogN) Space- O(N)
 def find_conflicting_appointments(intervals):
+    result=[]
     intervals.sort(key=lambda x: x[0])
-    result = []
-    start,end = intervals[0]
+    start,end = intervals[0][0],intervals[0][1]
     for i in range(1,len(intervals)):
-        if end> intervals[i][0]:
+        if end>intervals[i][0]:
             result.append([[start,end],intervals[i]])
         else:
-            start,end = intervals[i]
+            start,end = intervals[i][0],intervals[i][1]
     return result
 
 
 from heapq import *
+
 
 # Time - O(NlogN)(due to sorting), space- O(N)
 def find_room_count_for_meetings(meetings):
@@ -116,20 +118,21 @@ def find_room_count_for_meetings(meetings):
         rooms = max(rooms, len(minHeap))
     return rooms
 
+
 # Time - O(NlogN), space - O(N)
 def find_pointof_max_rooms_occupied(meetings):
-    meetings.sort(key=lambda x: x.start)
-    rooms = 0
-    point = 0
-    minHeap = []
+    meetings.sort(key=lambda x:x.start)
+    rooms, point =0,None
+    minHeap=[]
     for meeting in meetings:
-        while minHeap and minHeap[0].end <= meeting.start:
+        while minHeap and minHeap[0].end<=meeting.start:
             heappop(minHeap)
-        heappush(minHeap, meeting)
-        if rooms < len(minHeap):
-            rooms = len(minHeap)
-            point = minHeap[0]
+        heappush(minHeap,meeting)
+        if len(minHeap)>rooms:
+            rooms= len(minHeap)
+            point= minHeap[0]
     return [point.start,point.end]
+
 
 # time - O(NlogN), space O(N)
 def find_minimum_platforms(trains_schedule):
@@ -149,6 +152,7 @@ class Jobs:
         self.start = start
         self.end = end
         self.cpu_load = cpu_load
+
     # this function is used by heap to compare element during heapify/adjust/insert
     def __lt__(self, other):
         return self.end < other.end
@@ -168,59 +172,62 @@ def find_max_cpu_load(jobs):
         maxLoad = max(maxLoad, curLoad)
     return maxLoad
 
+
 # Time,space - O(N*M)
 def find_employee_free_time(schedules):
-    allIntervals =[]
+    allIntervals = []
     for schedule in schedules:
         for sch in schedule:
             allIntervals.append(sch)
-    allIntervals.sort(key=lambda x:x.start)
+    allIntervals.sort(key=lambda x: x.start)
 
-    start,end = allIntervals[0].start,allIntervals[0].end
-    schedules=[]
+    start, end = allIntervals[0].start, allIntervals[0].end
+    schedules = []
     for i in range(1, len(allIntervals)):
-        if allIntervals[i].start<end:
+        if allIntervals[i].start < end:
             end = max(end, allIntervals[i].end)
         else:
-            schedules.append(Interval(start,end))
-            start,end = allIntervals[i].start, allIntervals[i].end
-    schedules.append(Interval(start,end))
-    result =[]
-    for i in range(1,len(schedules)):
-        if schedules[i].start - schedules[i-1].end>0:
-            result.append(Interval(schedules[i-1].end, schedules[i].start))
+            schedules.append(Interval(start, end))
+            start, end = allIntervals[i].start, allIntervals[i].end
+    schedules.append(Interval(start, end))
+    result = []
+    for i in range(1, len(schedules)):
+        if schedules[i].start - schedules[i - 1].end > 0:
+            result.append(Interval(schedules[i - 1].end, schedules[i].start))
     return result
 
 
 class Employee:
-    def __init__(self,interval,empInd,intInd):
-        self.interval =interval
+    def __init__(self, interval, empInd, intInd):
+        self.interval = interval
         self.empInd = empInd
         self.intInd = intInd
 
     def __lt__(self, other):
-        return self.interval.start< other.interval.start
+        return self.interval.start < other.interval.start
+
 
 # Time - NlogK, space - O(K)
 def find_employee_free_time2(schedule):
-    result=[]
-    minHeap=[]
+    result = []
+    minHeap = []
     for i in range(len(schedule)):
-        heappush(minHeap,Employee(schedule[i][0],i,0))
+        heappush(minHeap, Employee(schedule[i][0], i, 0))
 
-    prevInterval=minHeap[0].interval
+    prevInterval = minHeap[0].interval
     while minHeap:
-        topEmp= heappop(minHeap)
-        if prevInterval.end<topEmp.interval.start:
-            result.append(Interval(prevInterval.end,topEmp.interval.start))
-            prevInterval= topEmp.interval
+        topEmp = heappop(minHeap)
+        if prevInterval.end < topEmp.interval.start:
+            result.append(Interval(prevInterval.end, topEmp.interval.start))
+            prevInterval = topEmp.interval
         else:
-            if prevInterval.end<topEmp.interval.end:
-                prevInterval= topEmp.interval
+            if prevInterval.end < topEmp.interval.end:
+                prevInterval = topEmp.interval
         empWholeSch = schedule[topEmp.empInd]
-        if len(empWholeSch)> topEmp.intInd+1:
-            heappush(minHeap, Employee(empWholeSch[topEmp.intInd+1], topEmp.empInd, topEmp.intInd+1))
+        if len(empWholeSch) > topEmp.intInd + 1:
+            heappush(minHeap, Employee(empWholeSch[topEmp.intInd + 1], topEmp.empInd, topEmp.intInd + 1))
     return result
+
 
 def main():
     print("1. Merged intervals: ", end='')
