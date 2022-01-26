@@ -184,6 +184,49 @@ def maxSubArray(nums):
 print('9: Max Subarray Sum: ', maxSubArray([-2,1,-3,4,-1,2,1,-5,4]))
 print('9: Max Subarray Sum: ', maxSubArray([5,4,-1,7,8]))
 
+
+
+
+# https://leetcode.com/problems/find-the-celebrity/
+def find_celebrity(n):
+    celeb=0
+    for i in range(n):
+        if knows(celeb,i):
+            celeb=i
+    for i in range(n):
+        if celeb==i:
+            continue
+        if knows(celeb,i) or not knows(i,celeb):
+            return -1
+    return celeb
+
+
+def knows(i, j):
+    grid = [[1, 1, 0], [0, 1, 0], [1, 1, 1]]
+    return grid[i][j]
+
+
+print('14. find_celebrity: ', find_celebrity(2))
+
+
+# https://leetcode.com/problems/remove-duplicate-letters/
+def remove_duplicate_letters(s):
+    stack=['!']
+    visited=set()
+    last_ind= {c:i for i,c in enumerate(s)}
+    for i,c in enumerate(s):
+        if c in visited:
+            continue
+        while stack[-1]>c and last_ind[stack[-1]]>i:
+            visited.remove(stack.pop())
+        visited.add(c)
+        stack.append(c)
+    return ''.join(stack[1:])
+
+
+print('15. Remove duplicate letters: ', remove_duplicate_letters('cbacdcbc'))
+
+
 '''
 from heapq import *
 
