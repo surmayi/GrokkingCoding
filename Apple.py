@@ -186,6 +186,171 @@ print('9: Max Subarray Sum: ', maxSubArray([5,4,-1,7,8]))
 
 
 
+# https://leetcode.com/problems/valid-sudoku/
+def isValidSudoku(board):
+    seen = set()
+    for i in range(len(board)):
+        for j in range(len(board[0])):
+            num = board[i][j]
+            if num != '.':
+                if (num, i) in seen or (j, num) in seen or (i // 3, j // 3, num) in seen:
+                    return False
+                seen.add((num, i))
+                seen.add((j, num))
+                seen.add((i // 3, j // 3, num))
+    return True
+
+
+board=[["5","3",".",".","7",".",".",".","."]
+,["6",".",".","1","9","5",".",".","."]
+,[".","9","8",".",".",".",".","6","."]
+,["8",".",".",".","6",".",".",".","3"]
+,["4",".",".","8",".","3",".",".","1"]
+,["7",".",".",".","2",".",".",".","6"]
+,[".","6",".",".",".",".","2","8","."]
+,[".",".",".","4","1","9",".",".","5"]
+,[".",".",".",".","8",".",".","7","9"]]
+print('10. Is Valid Sudoku: ', isValidSudoku(board))
+board=[["8","3",".",".","7",".",".",".","."]
+,["6",".",".","1","9","5",".",".","."]
+,[".","9","8",".",".",".",".","6","."]
+,["8",".",".",".","6",".",".",".","3"]
+,["4",".",".","8",".","3",".",".","1"]
+,["7",".",".",".","2",".",".",".","6"]
+,[".","6",".",".",".",".","2","8","."]
+,[".",".",".","4","1","9",".",".","5"]
+,[".",".",".",".","8",".",".","7","9"]]
+print('10. Is Valid Sudoku: ', isValidSudoku(board))
+
+
+# https://leetcode.com/problems/sudoku-solver/
+def use_in_row(board,num,row):
+    for i in range(9):
+        if board[row][i]!='.' and int(board[row][i])==num:
+            return False
+    return True
+
+
+def use_in_col(board,num,col):
+    for i in range(9):
+        if board[i][col]!='.' and int(board[i][col])==num:
+            return False
+    return True
+
+
+def use_in_box(board,num,row,col):
+    for i in range(3):
+        for j in range(3):
+            if board[row+i][col+j]!='.' and int(board[row+i][col+j])==num:
+                return False
+    return True
+
+
+def can_place_num(board,num,row,col):
+    return use_in_row(board,num,row) and use_in_col(board,num,col) and use_in_box(board,num,row-row%3,col-col%3)
+
+
+def empty_location_location(board,l):
+    for i in range(9):
+        for j in range(9):
+            if board[i][j]=='.':
+                l[0],l[1]= i,j
+                return True
+    return False
+
+
+def sudokuSolver(board):
+    l=[0,0]
+    if not empty_location_location(board,l):
+        return True
+    row,col=l[0],l[1]
+    for num in range(1,10):
+        if can_place_num(board,num,row,col):
+            board[row][col]=str(num)
+            if sudokuSolver(board):
+                return True
+            board[row][col]='.'
+    return False
+
+
+board = [["5","3",".",".","7",".",".",".","."],["6",".",".","1","9","5",".",".","."],[".","9","8",".",".",".",".","6","."],["8",".",".",".","6",".",".",".","3"],["4",".",".","8",".","3",".",".","1"],["7",".",".",".","2",".",".",".","6"],[".","6",".",".",".",".","2","8","."],[".",".",".","4","1","9",".",".","5"],[".",".",".",".","8",".",".","7","9"]]
+print('11. Sudoku Solver: ', sudokuSolver(board))
+print(board)
+
+
+# https://leetcode.com/problems/length-of-longest-fibonacci-subsequence/
+def longest_fibonacci_subsequence(arr):
+    ar=set(arr)
+    ans=0
+    for i in range(len(arr)):
+        for j in range(i+1,len(arr)):
+            x,y = arr[j],arr[i]+arr[j]
+            length=2
+            while y in ar:
+                x,y = y, x+y
+                length+=1
+            ans= ans if length<=ans else length
+    return ans if ans>=3 else 0
+
+
+print('12. Longest Fibonacci Subsequence: ', longest_fibonacci_subsequence([1,2,3,4,5,6,7,8]))
+print('12. Longest Fibonacci Subsequence: ', longest_fibonacci_subsequence([1,3,7,11,12,14,18]))
+
+
+# https://leetcode.com/problems/find-distance-in-a-binary-tree/
+def find_distance_binary_tree(root,p,q):
+    def helper(node):
+        if not node:
+            return None
+        if node.val in [p,q]:
+            return node
+        left,right = helper(node.left),helper(node.right)
+        if not left:
+            return right
+        if not right:
+            return left
+        return node
+    root = helper(root)
+    que = deque()
+    p_ind, q_ind = 0,0
+    que.append([root,0])
+    while que:
+        node,path = que.popleft()
+        if node.val==p:
+            p_ind=path
+            if q_ind:
+                break
+        if node.val==q:
+            q_ind=path
+            if p_ind:
+                break
+        if node.left:
+            que.append([node.left,path+1])
+        if node.right:
+            que.append([node.right,path+1])
+    return p_ind+q_ind
+
+
+class TreeNode:
+     def __init__(self, val=0, left=None, right=None):
+         self.val = val
+         self.left = left
+         self.right = right
+
+
+root = TreeNode()
+root.left=TreeNode(5)
+root.right= TreeNode(1)
+root.left.left= TreeNode(6)
+root.left.right= TreeNode(2)
+root.right.left= TreeNode(0)
+root.right.right= TreeNode(8)
+root.left.right.left= TreeNode(7)
+root.left.right.right = TreeNode(4)
+print('13. Distance between 2 nodes in Binary Tree: ', find_distance_binary_tree(root,5,0))
+print('13. Distance between 2 nodes in Binary Tree: ', find_distance_binary_tree(root,5,7))
+
+
 
 # https://leetcode.com/problems/find-the-celebrity/
 def find_celebrity(n):
@@ -304,6 +469,116 @@ print('18: Circular Queue: true ',myCircularQueue.deQueue())
 print('18: Circular Queue: true ',myCircularQueue.enQueue(4))
 print('18: Circular Queue: 4 ',myCircularQueue.Rear())
 
+
+# https://leetcode.com/problems/maximum-nesting-depth-of-two-valid-parentheses-strings/
+def maxDepthAfterSplit(seq):
+    result, depth = [], 0
+    for brace in seq:
+        if brace == '(':
+            depth += 1
+        result.append(depth % 2)
+        if brace == ')':
+            depth -= 1
+    return result
+
+
+print('19. Max Depth of brackets after Split: ', maxDepthAfterSplit("()(())()"))
+print('19. Max Depth of brackets after Split: ', maxDepthAfterSplit("(()())"))
+
+
+# https://leetcode.com/problems/two-sum/
+def two_sum(nums, target):
+    helper = {}
+    for ind, num in enumerate(nums):
+        sec = target - num
+        if sec in helper:
+            return [helper[sec], ind]
+        helper[num] = ind
+    return [-1, -1]
+
+
+print('20. Two Sum: ', two_sum([2, 7, 11, 15], 9))
+
+# https://leetcode.com/problems/find-median-from-data-stream/
+from heapq import *
+
+
+class MedianFinder:
+
+    def __init__(self):
+        self.minHeap = []
+        self.maxHeap = []
+
+    def addNum(self, num: int) -> None:
+        if not self.maxHeap or -self.maxHeap[0] >= num:
+            heappush(self.maxHeap, -num)
+        else:
+            heappush(self.minHeap, num)
+        if len(self.maxHeap) > len(self.minHeap) + 1:
+            heappush(self.minHeap, -heappop(self.maxHeap))
+        elif len(self.minHeap) > len(self.maxHeap):
+            heappush(self.maxHeap, -heappop(self.minHeap))
+
+    def findMedian(self) -> float:
+        if len(self.minHeap) == len(self.maxHeap):
+            return -self.maxHeap[0] / 2.0 + self.minHeap[0] / 2.0
+        return -self.maxHeap[0] / 1.0
+
+
+medianFinder = MedianFinder()
+medianFinder.addNum(1)
+medianFinder.addNum(2)
+print('21. Data Stream Median Finder: ', medianFinder.findMedian())
+medianFinder.addNum(3)
+print('21. Data Stream Median Finder: ', medianFinder.findMedian())
+
+
+# https://leetcode.com/problems/word-ladder/
+def ladderLength(beginWord, endWord, wordList):
+    wordList = set(wordList)
+    chSet = {ch for word in wordList for ch in word}
+    if endWord not in wordList:
+        return 0
+    que = deque()
+    que.append([beginWord, 1])
+    while que:
+        word, length = que.popleft()
+        if word == endWord:
+            return length
+        for i in range(len(word)):
+            for ch in chSet:
+                nextWord = word[:i] + ch + word[i + 1:]
+                if nextWord in wordList:
+                    wordList.remove(nextWord)
+                    que.append([nextWord, length + 1])
+    return 0
+
+
+print('22. Word Ladder : ', ladderLength('hit','cog',["hot","dot","dog","lot","log","cog"]))
+print('22. Word Ladder : ', ladderLength('hit','cog',["hot","dot","dog","lot","log"]))
+
+
+# https://leetcode.com/problems/meeting-scheduler/
+def meetingScheduler(slot1,slot2,duration):
+    slot1.sort(key=lambda x:x[0])
+    slot2.sort(key=lambda x: x[0])
+    i,j,l1,l2 = 0,0, len(slot1),len(slot2)
+    while i<l1 and j<l2:
+        s1,s2 = slot1[i][0],slot2[j][0]
+        e1,e2=  slot1[i][1],slot2[j][1]
+        start,end = max(s1,s2), min(e1,e2)
+        if start<end:
+            if end-start>=duration:
+                return [start,start+duration]
+        if e1<e2:
+            i+=1
+        else:
+            j+=1
+    return []
+
+
+print('23. Meeting Scheduler, min. available duration: ', meetingScheduler([[10,50],[60,120],[140,210]], [[0,15],[60,70]],8))
+print('23. Meeting Scheduler, min. available duration: ', meetingScheduler([[10,50],[60,120],[140,210]], [[0,15],[60,70]],  12))
 
 
 
