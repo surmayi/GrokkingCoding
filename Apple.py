@@ -956,3 +956,37 @@ def findMinDifference(timePoints):
 
 
 print('38. Find Min Time Difference in Mins: ', findMinDifference(["00:00","23:59","00:00"]))
+
+
+# https://leetcode.com/problems/maximum-sum-bst-in-binary-tree/
+def maxSumBST(root) -> int:
+    res = 0
+
+    def traverse(node):
+        if not node:
+            return 1, 0, None, None
+        nonlocal res
+
+        ls, l, ll, lr = traverse(node.left)
+        rs, r, rl, rr = traverse(node.right)
+
+        if ((ls == 2 and lr < node.val) or ls == 1) and ((rs == 2 and rl > node.val) or rs == 1):
+            size = node.val + l + r
+            res = max(res, size)
+            return 2, size, ll if ll is not None else node.val, rr if rr is not None else node.val
+        return 0, None, None, None
+
+    traverse(root)
+    return res
+
+
+root = TreeNode(1)
+root.left=TreeNode(4)
+root.right= TreeNode(3)
+root.left.left= TreeNode(2)
+root.left.right= TreeNode(4)
+root.right.left= TreeNode(2)
+root.right.right= TreeNode(5)
+root.right.right.left= TreeNode(4)
+root.right.right.right = TreeNode(6)
+print('39. Maximum Size BST branch: ', maxSumBST(root))
